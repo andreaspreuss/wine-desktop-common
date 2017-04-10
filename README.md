@@ -1,13 +1,13 @@
 # wine-desktop-common
-Wine desktop files for Gentoo
 
-Forked from Tetromino's [wine-gentoo-2013.06.24](http://dev.gentoo.org/~tetromino/distfiles/wine/wine-gentoo-2013.06.24.tar.bz2)
+Wine desktop and icon files common to all Gentoo Wine packages in the **::bobwya** Overlay.
 
+Forked from Tetromino's [wine-gentoo-2013.06.24](http://dev.gentoo.org/~tetromino/distfiles/wine/wine-gentoo-2013.06.24.tar.bz2).
 
-The following files are taken from the Ubuntu wine1.4_1.4.1-0ubuntu1
-package, where they are distributed under LGPL-2+:
+The following files are taken from the Ubuntu **wine1.4_1.4.1-0ubuntu1**
+package, where they are distributed under **LGPL-2+**:
 
-applications/wine-browsedrive.desktop
+```applications/wine-browsedrive.desktop
 applications/wine-notepad.desktop
 applications/wine-uninstaller.desktop
 applications/wine-winecfg.desktop
@@ -44,4 +44,5 @@ icons/hicolor/scalable/apps/wine-uninstaller.svg
 icons/hicolor/scalable/apps/wine-winecfg.svg
 icons/hicolor/scalable/apps/wine.svg
 xdg/wine.menu
+```
 

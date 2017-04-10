@@ -24,7 +24,9 @@ ICONS = \
 	icons/hicolor/scalable/apps/wine-uninstaller.svg \
 	icons/hicolor/scalable/apps/wine-winecfg.svg
 
-all: $(MENU_FILES) $(DESKTOP_FILES) $(DIRECTORY_FILES) $(ICONS)
+WINE_ICO = icons/oic_winlogo.ico
+
+all: $(MENU_FILES) $(DESKTOP_FILES) $(DIRECTORY_FILES) $(ICONS) $(WINE_ICO)
 install: all
 	install -d "$(DESTDIR)$(EPREFIX)/etc/xdg/menus/applications-merged"
 	install -m0644 $(MENU_FILES) "$(DESTDIR)$(EPREFIX)/etc/xdg/menus/applications-merged"
@@ -40,3 +42,5 @@ install: all
 		install -d "$(DESTDIR)$(EPREFIX)/usr/share/icons/hicolor/$$size/places"; \
 		install -m0644 icons/hicolor/$$size/places/* "$(DESTDIR)$(EPREFIX)/usr/share/icons/hicolor/$$size/places"; \
 	done
+	install -d "$(DESTDIR)$(EPREFIX)/usr/share/wine/icons"
+	install -m0644 $(WINE_ICO) "$(DESTDIR)$(EPREFIX)/usr/share/wine/icons"

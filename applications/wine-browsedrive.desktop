@@ -36,5 +36,5 @@ Comment[nl]=Bekijk uw virtuele C: schijf
 Exec=xdg-open .wine/dosdevices/c:
 Terminal=false
 Type=Application
-Icon=folder-wine
+Icon=drive-wine
 Categories=Wine;

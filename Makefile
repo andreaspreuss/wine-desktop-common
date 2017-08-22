@@ -1,55 +1,54 @@
-MENU_FILES = /home/robert_gentoo/Packages/Gentoo/wine-desktop-common/xdg/wine.menu
+MENU_FILES = xdg/wine.menu
 
 DESKTOP_FILES = \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-iexplore.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-explorer.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-cmd.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-winecfg.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-browsedrive.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-notepad.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-wordpad.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-regedit.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-uninstaller.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-msiexec.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-winhelp.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-wineboot.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-mime-msi.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-winemine.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-control.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-winefile.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-taskmgr.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-browsecdrive.desktop \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/applications/wine-oleview.desktop
+	applications/wine-iexplore.desktop \
+	applications/wine-explorer.desktop \
+	applications/wine-cmd.desktop \
+	applications/wine-winecfg.desktop \
+	applications/wine-notepad.desktop \
+	applications/wine-wordpad.desktop \
+	applications/wine-regedit.desktop \
+	applications/wine-uninstaller.desktop \
+	applications/wine-msiexec.desktop \
+	applications/wine-winhelp.desktop \
+	applications/wine-wineboot.desktop \
+	applications/wine-mime-msi.desktop \
+	applications/wine-winemine.desktop \
+	applications/wine-control.desktop \
+	applications/wine-winefile.desktop \
+	applications/wine-taskmgr.desktop \
+	applications/wine-browsecdrive.desktop \
+	applications/wine-oleview.desktop
 
 DIRECTORY_FILES = \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/desktop-directories/wine-wine.directory \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/desktop-directories/wine-Programs.directory \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/desktop-directories/wine-Programs-Accessories.directory
+	desktop-directories/wine-wine.directory \
+	desktop-directories/wine-Programs.directory \
+	desktop-directories/wine-Programs-Accessories.directory
 
 ICONS = \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/control-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/desktop-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/cdrom-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/netdrive-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/printer-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/mycomputer-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/mydocs-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/drive-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/places/document-wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-notepad.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-winhelp.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-wordpad.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-winemine.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-iexplore.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-winecfg.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-winefile.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-regedit.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-wcmd.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-msiexec.svg \
-	/home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/hicolor/scalable/apps/wine-taskmgr.svg
+	icons/hicolor/scalable/places/control-wine.svg \
+	icons/hicolor/scalable/places/desktop-wine.svg \
+	icons/hicolor/scalable/places/cdrom-wine.svg \
+	icons/hicolor/scalable/places/netdrive-wine.svg \
+	icons/hicolor/scalable/places/printer-wine.svg \
+	icons/hicolor/scalable/places/mycomputer-wine.svg \
+	icons/hicolor/scalable/places/mydocs-wine.svg \
+	icons/hicolor/scalable/places/drive-wine.svg \
+	icons/hicolor/scalable/places/document-wine.svg \
+	icons/hicolor/scalable/apps/wine-notepad.svg \
+	icons/hicolor/scalable/apps/wine.svg \
+	icons/hicolor/scalable/apps/wine-winhelp.svg \
+	icons/hicolor/scalable/apps/wine-wordpad.svg \
+	icons/hicolor/scalable/apps/wine-winemine.svg \
+	icons/hicolor/scalable/apps/wine-iexplore.svg \
+	icons/hicolor/scalable/apps/wine-winecfg.svg \
+	icons/hicolor/scalable/apps/wine-winefile.svg \
+	icons/hicolor/scalable/apps/wine-regedit.svg \
+	icons/hicolor/scalable/apps/wine-wcmd.svg \
+	icons/hicolor/scalable/apps/wine-msiexec.svg \
+	icons/hicolor/scalable/apps/wine-taskmgr.svg
 
-WINE_ICO = /home/robert_gentoo/Packages/Gentoo/wine-desktop-common/icons/oic_winlogo.ico
+WINE_ICO = icons/oic_winlogo.ico
 
 all: $(MENU_FILES) $(DESKTOP_FILES) $(DIRECTORY_FILES) $(ICONS) $(WINE_ICO)
 

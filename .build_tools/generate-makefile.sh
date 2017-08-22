@@ -29,11 +29,11 @@ function create_makefile_variable()
 	done < <(find "${directory}" -type f -name "*.${filetype}" -print0 2>/dev/null)
 	if ((${#source_files[@]} == 1)); then
 		source_file="${source_files[0]}"
-		printf "${variable_name} = %s" "${source_file#./}"
+		printf "${variable_name} = %s" "${source_file#${directory}/}"
 	elif ((${#source_files[@]} > 1)); then
 		printf "%s" "${variable_name} ="
 		for source_file in "${source_files[@]}"; do
-			printf ' \\\n\t%s' "${source_file#./}"
+			printf ' \\\n\t%s' "${source_file#${directory}/}"
 		done
 	fi
 	printf "\n\n"

@@ -775,8 +775,8 @@ def create_makefile(root_directory):
         file_text += ' $('+file_type_tuple[0]+')'
     file_text += '\n\ninstall: all\n'
     for file_type_tuple in file_installation_list:
-        file_text += ('\tinstall -d "$(DESTDIR)$(EPREFIX)/'
-                      +file_type_tuple[2]
+        file_text += ('\tinstall -d "$(DESTDIR)$(EPREFIX)'
+                      +file_type_tuple[3]
                       +'"\n')
         file_text += ('\tinstall -m0644 $('
                       +file_type_tuple[0]

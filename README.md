@@ -1,5 +1,7 @@
 # wine-desktop-common
 
+[![Build Status](https://travis-ci.org/bobwya/wine-desktop-common.svg?branch=master)](https://travis-ci.org/bobwya/wine-desktop-common) [![License](http://img.shields.io/:license-lgpl-green.svg)](https://tldrlegal.com/license/gnu-lesser-general-public-license-v2.1-(lgpl-2.1))
+
 Distribution agnostic Wine desktop and icon files common to all Wine packages in the **Gentoo** **GNU/Linux** **::bobwya** Overlay.
 
 ## Installation on non-Gentoo Linux Distributions

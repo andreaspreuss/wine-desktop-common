@@ -18,7 +18,7 @@ sudo make install
 
 ## Build Information
 
-Uses a custom Python 3 script to:
+Uses a custom Python 3.6 script to:
 
  * extract and cleanup a set of scalable Wine icons, from a local copy of the Wine Source tree
  * automatically generate a complete suite of wine .desktop and .menu files, with broad locale support

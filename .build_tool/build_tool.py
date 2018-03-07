@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.6
 
-""" Module to generate Distribution Agnostic Wine icon, .desktop and .menu data files. """
+""" Module to generate Linux Distribution Agnostic Wine icon, .desktop and .menu data files. """
 
 import argparse
 import re
@@ -36,92 +36,133 @@ GLOBAL_GENERAL_CATEGORIES = {"game":"Game", "logic-game":"LogicGame"}
 # Desktop launcher files
 TYPE = "Application"
 GLOBAL_DESKTOP_FILE_DICT = {
-    "wine-browsecdrive":{"Name":'Browse C: drive', "Comment":'Browse your virtual C: drive',
+    "wine-browsecdrive":{"Name":'Browse C: disk-drive',
+                         "Comment":'Browse your virtual C: disk-drive',
                          "Exec":'sh -c "xdg-open $(winepath -u \'C:\' 2>/dev/null)"',
                          "Icon":'drive-wine',
-                         "Terminal":"false", "Type":TYPE,
+                         "Terminal":"false",
+                         "Type":TYPE,
                          "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-cmd":{"Name":'Wine Command interpreter',
                 "Comment":'Starts a new instance of the command interpreter CMD',
-                "Type":TYPE, "Exec":'wine cmd.exe', "Icon":'wine-wcmd',
+                "Type":TYPE,
+                "Exec":'wine cmd.exe',
+                "Icon":'wine-wcmd',
                 "Hidden":'true',
                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-control":{"Name":'Wine Control',
-                    "Comment":'A clone of the Windows Control Panel',
-                    "Type":TYPE, "Exec":'wine control.exe', "Icon":'control-wine',
+                    "Comment":'A clone of the Microsoft® Windows Control Panel',
+                    "Type":TYPE,
+                    "Exec":'wine control.exe',
+                    "Icon":'control-wine',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-explorer":{"Name":'Wine Explorer',
-                     "Comment":'A clone of Windows Explorer', "Type":TYPE,
+                     "Comment":'A clone of Microsoft® Windows Explorer',
+                     "Type":TYPE,
                      "Exec":'wine explorer.exe',
-                     "Icon":'wine-winefile', "Terminal":'false',
+                     "Icon":'wine-winefile',
+                     "Terminal":'false',
                      "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-iexplore":{"Name":'Wine Internet Explorer',
-                     "Comment":'Builtin clone of Windows Internet Explorer®',
-                     "Type":TYPE, "Exec":'wine iexplore.exe %U',
-                     "Icon":'wine-iexplore', "Terminal":'false',
+                     "Comment":'Builtin clone of Microsoft® Windows Internet Explorer®',
+                     "Type":TYPE,
+                     "Exec":'wine iexplore.exe %U',
+                     "Icon":'wine-iexplore',
+                     "Terminal":'false',
                      "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-notepad":{"Name":'Wine Notepad',
-                    "Comment":'A clone of the Windows Notepad Text Editor',
-                    "Type":TYPE, "Exec":'notepad %%f', "Icon":'wine-notepad',
+                    "Comment":'A clone of the Microsoft® Windows Notepad Text Editor',
+                    "Type":TYPE,
+                    "Exec":'notepad %%f',
+                    "Icon":'wine-notepad',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
                                   GLOBAL_WINE_CATEGORIES["accessories"]]},
     "wine-oleview":{"Name":'Wine OLE/COM Object Viewer',
-                    "Comment":
-                        'Windows Object Linking and Embedding/Component Object Model Object Viewer',
-                    "Type":TYPE, "Exec":'wine oleview.exe', "Icon":'control-wine',
+                    "Comment":('Microsoft® Windows Object Linking and '
+                               'Embedding/Component Object Model Object Viewer'),
+                    "Type":TYPE,
+                    "Exec":'wine oleview.exe',
+                    "Icon":'control-wine',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-regedit":{"Name":'Wine Registry Editor',
-                    "Comment":'A clone of the Windows Registry Editor',
-                    "Type":TYPE, "Exec":'regedit', "Icon":'wine-regedit',
+                    "Comment":'A clone of the Microsoft® Windows Registry Editor',
+                    "Type":TYPE,
+                    "Exec":'regedit',
+                    "Icon":'wine-regedit',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-taskmgr":{"Name":'Wine Task Manager',
                     "Comment":'A clone of Windows Task Manager',
-                    "Type":TYPE, "Exec":'wine taskmgr.exe', "Icon":'wine-taskmgr',
+                    "Type":TYPE,
+                    "Exec":'wine taskmgr.exe',
+                    "Icon":'wine-taskmgr',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-uninstaller":{"Name":'Uninstall Wine Software',
-                        "Comment":'A clone of Windows Add and Remove Programs Utility',
-                        "Type":TYPE, "Exec":'wine uninstaller.exe', "Icon":'control-wine',
-                        "Terminal":'false', "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+                        "Comment":('A clone of the Microsoft® Windows '
+                                   'Add and Remove Programs Utility'),
+                        "Type":TYPE,
+                        "Exec":'wine uninstaller.exe',
+                        "Icon":'control-wine',
+                        "Terminal":'false',
+                        "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-wineboot":{"Name":'Wine Boot',
                      "Comment":'Simulate system reboot/stop',
-                     "Type":TYPE, "Exec":'wineboot', "Icon":'mycomputer-wine',
-                     "Terminal":'false', "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+                     "Type":TYPE,
+                     "Exec":'wineboot',
+                     "Icon":'mycomputer-wine',
+                     "Terminal":'false',
+                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-winecfg":{"Name":'Configure Wine',
                     "Comment":'Change general Wine options and application overrides/options',
-                    "Type":TYPE, "Exec":'winecfg', "Icon":'wine-winecfg',
-                    "Terminal":'false', "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+                    "Type":TYPE,
+                    "Exec":'winecfg',
+                    "Icon":'wine-winecfg',
+                    "Terminal":'false',
+                    "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-winefile":{"Name":'Wine File Browser',
-                     "Comment":'A clone of Windows Explorer',
-                     "Type":TYPE, "Exec":'winefile', "Icon":'wine-winefile',
-                     "Terminal":'false', "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+                     "Comment":'A clone of Microsoft® Windows Explorer',
+                     "Type":TYPE,
+                     "Exec":'winefile',
+                     "Icon":'wine-winefile',
+                     "Terminal":'false',
+                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-winemine":{"Name":'Wine Minesweeper',
-                     "Comment":'A clone of the Windows Minesweeper game',
-                     "Type":TYPE, "Exec":'winemine', "Icon":'wine-winemine',
+                     "Comment":'A clone of the Microsoft® Windows Minesweeper game',
+                     "Type":TYPE,
+                     "Exec":'winemine',
+                     "Icon":'wine-winemine',
                      "Terminal":'false',
                      "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
                                    GLOBAL_GENERAL_CATEGORIES["game"],
                                    GLOBAL_GENERAL_CATEGORIES["logic-game"]]},
     "wine-winhelp":{"Name":'Wine Help',
-                    "Comment":'A clone of the Windows Help File browser',
-                    "Type":TYPE, "Exec":'wine winhlp32.exe %%f', "Icon":'wine-winhelp',
+                    "Comment":'A clone of the Microsoft® Windows Help File browser',
+                    "Type":TYPE,
+                    "Exec":'wine winhlp32.exe %%f',
+                    "Icon":'wine-winhelp',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     "wine-wordpad":{"Name":'Wine Wordpad',
-                    "Comment":'A clone of the Windows Wordpad Text Editor',
-                    "Type":TYPE, "Exec":'wine wordpad %%f', "Icon":'wine-wordpad',
+                    "Comment":'A clone of the Microsoft® Windows Wordpad Text Editor',
+                    "Type":TYPE,
+                    "Exec":'wine wordpad %%f',
+                    "Icon":'wine-wordpad',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    "wine-msiexec":{"Name":'Wine Windows Installer',
+    "wine-msiexec":{"Name":'Wine clone of Microsoft® Installer',
                     "Comment":'Wine installer utility for MSI packages',
-                    "Type":TYPE, "Exec":'wine msiexec /i %%f', "Icon":'wine-msiexec',
+                    "Type":TYPE,
+                    "Exec":'wine msiexec /i %%f',
+                    "Icon":'wine-msiexec',
                     "Terminal":'false',
                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    "wine-mime-msi":{"Name":'Windows Installer File', "Type":TYPE, "Exec":'wine %%f',
+    "wine-mime-msi":{"Name":'Microsoft® Windows Installer File',
+                     "Type":TYPE,
+                     "Exec":'wine %%f',
                      "Hidden":'true',
                      "MimeType":["application/x-ole-storage", "text/mspg-legacyinfo"],
                      "Terminal":'false',
@@ -246,37 +287,40 @@ def find_best_translation(search_text, source_text_list):
     Filters the list of translated strings returning the one with the least matches
     against any words from the base (English) language string."""
     word_list = re.split(' ', search_text)
+    lcsearch_text = search_text.lower()
     current_score = len(search_text)
     target_text = ""
     for source_text in source_text_list:
+        lcsource_text = source_text.lower()
         if source_text == "":
             continue
         score = 0
-        source_text_lc = source_text.lower()
+        if lcsource_text == lcsearch_text:
+            score = len(word_list)
         for word in word_list:
-            word = word.lower()
-            if word in source_text_lc:
+            lcword = word.lower()
+            if lcword in lcsource_text:
                 score += len(word)
         if score < current_score or target_text == "":
             target_text = source_text
             current_score = score
-        #print(f'    {search_text}->{source_text} ({score})')
     return target_text
 
 def translate_text(text, locale):
     """ Translates a block text for the specified locale. Uses shell utility trans. """
+    shell_command = 'trans'
+    shell_parameters = (f' -indent 0 -no-ansi -no-auto'
+                        f' -show-languages N -show-dictionary N -show-prompt-message N'
+                        f' -show-original N -s en -t {locale} "{text}"')
     out = subprocess.run(["/bin/bash",
                           "-c",
-                          (f'trans'
-                           f'-indent 0 -no-ansi -no-auto'
-                           f'-show-languages N -show-dictionary N -show-prompt-message N'
-                           f'-show-original N -s en -t {locale} "{text}"')],
+                          shell_command+shell_parameters],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.DEVNULL,
                          encoding='utf-8')
     if out.returncode != 0:
         raise SystemError(f'Unable to translate "{text}" to locale: {locale}')
-    translation_list = re.split(r'\n|, |\(|\)', out.stdout)
+    translation_list = re.split(r'\n|, |^\(|\)$', out.stdout, flags=re.MULTILINE)
     translated_text = find_best_translation(text, translation_list)
     return translated_text
 
@@ -288,12 +332,6 @@ def translate_text_lookup(text, locale):
         translated_text = text
     elif not text in locale_dictionary:
         translated_text = translate_text(text, locale)
-        # No valid translation?
-        # Then try a further translation with the lowercase version of first word...
-        if translated_text == text and text[0].isupper():
-            translated_text = translate_text(text[0].lower()+text[1:], locale)
-        if text[0].isupper():
-            translated_text = translated_text[0].upper()+translated_text[1:]
         locale_dictionary[text] = translated_text
     else:
         translated_text = locale_dictionary[text]
@@ -530,7 +568,7 @@ def xml_do_overlay_svg(xml_base_root, xml_overlay_root, places_svg_file):
     return xml_base_root
 
 
-def xml_process_app_svg_id_element(xml_root, element, max_icon_size):
+def xml_process_apps_svg_id_element(xml_root, element, max_icon_size):
     """ For the specified application icon embedded PNG icon fix the y coord.
         Remove larger icon references. """
     internal_size = (max_icon_size*3)//4
@@ -545,7 +583,7 @@ def xml_process_app_svg_id_element(xml_root, element, max_icon_size):
     return xml_root
 
 
-def xml_process_app_svg_group(xml_root, element, x_offset, y_offset):
+def xml_process_apps_svg_group(xml_root, element, x_offset, y_offset):
     """ Remove very large application scaled icons (>1x scale) for specified XML element.
         For all other icons set X and Y offsets. """
     xml_transform_attrib = element.attrib.get('transform')
@@ -573,17 +611,17 @@ def xml_process_app_svg_group(xml_root, element, x_offset, y_offset):
     return xml_root
 
 
-def xml_app_svg_parse_groups(xml_root, app_svg_file):
+def xml_apps_svg_parse_groups(xml_root, apps_svg_file):
     """ Set ID tags for all application SVG scalable icons.
         Set X and Y translation offsets for all application SVG icons
         - to ensure these are 'neatly' lined up. """
     for element in xml_root.findall(".//*[@id]"):
         if re.search(r'^icon\:[0-9]+\-[0-9]+$', element.attrib.get('id')):
-            xml_root = xml_process_app_svg_id_element(xml_root, element, GLOBAL_NEW_ICON_SIZE)
+            xml_root = xml_process_apps_svg_id_element(xml_root, element, GLOBAL_NEW_ICON_SIZE)
     icon_order = [GLOBAL_LARGE_SVG_ICON_ID, GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_SMALL_SVG_ICON_ID]
-    if app_svg_file in ['iexplore.svg', 'notepad.svg']:
+    if apps_svg_file in ['iexplore.svg', 'notepad.svg']:
         icon_order = [GLOBAL_SMALL_SVG_ICON_ID, GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_LARGE_SVG_ICON_ID]
-    elif app_svg_file in ['taskmgr.svg', 'winecfg.svg', 'wordpad.svg']:
+    elif apps_svg_file in ['taskmgr.svg', 'winecfg.svg', 'wordpad.svg']:
         icon_order = [GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_LARGE_SVG_ICON_ID]
     first = True
     for element in xml_root.findall(".//svg:g", GLOBAL_XMLNS):
@@ -595,14 +633,14 @@ def xml_app_svg_parse_groups(xml_root, app_svg_file):
             continue
         if first:
             first = False
-            if app_svg_file in ['taskmgr.svg', 'wcmd.svg', 'winefile.svg',
-                                'winhelp.svg', 'winemine.svg']:
+            if apps_svg_file in ['taskmgr.svg', 'wcmd.svg', 'winefile.svg',
+                                 'winhelp.svg', 'winemine.svg']:
                 x_offset = y_offset = 8
-            elif app_svg_file in ['winecfg.svg']:
+            elif apps_svg_file in ['winecfg.svg']:
                 x_offset = 176
                 y_offset = 24
         if element.get('transform') != None:
-            xml_root = xml_process_app_svg_group(xml_root, element, x_offset, y_offset)
+            xml_root = xml_process_apps_svg_group(xml_root, element, x_offset, y_offset)
     return xml_root
 
 
@@ -624,25 +662,25 @@ def process_wine_icon(wine_source_directory, target_root_directory):
     shutil.copyfile(source_path, destination_path)
 
 
-def process_app_svg_files(wine_source_directory, target_root_directory):
+def process_apps_svg_files(wine_source_directory, target_root_directory):
     """ Loop through and process all application icons
         - cloning these from the specified Wine Source tree. """
-    for app_svg_file in GLOBAL_APP_SVG_FILES:
-        print(f'{app_svg_file} ', end='')
+    for apps_svg_file in GLOBAL_APP_SVG_FILES:
+        print(f'{apps_svg_file} ', end='')
         sys.stdout.flush()
-        source_rel_directory = GLOBAL_APP_SVG_FILES[app_svg_file]['srpath']
+        source_rel_directory = GLOBAL_APP_SVG_FILES[apps_svg_file]['srpath']
         source_directory = os.path.join(wine_source_directory, source_rel_directory)
-        target_rel_path = GLOBAL_APP_SVG_FILES[app_svg_file]['trpath']
+        target_rel_path = GLOBAL_APP_SVG_FILES[apps_svg_file]['trpath']
         target_directory = os.path.join(target_root_directory, target_rel_path)
-        xml_tree = xml_svg_load_and_parse(source_directory, app_svg_file)
+        xml_tree = xml_svg_load_and_parse(source_directory, apps_svg_file)
         xml_root = xml_tree.getroot()
-        xml_root = xml_app_svg_parse_groups(xml_root, app_svg_file)
+        xml_root = xml_apps_svg_parse_groups(xml_root, apps_svg_file)
         xml_root = xml_svg_fix_icon_size(xml_root)
-        if app_svg_file == GLOBAL_WINE_SVG_LOGO_FILENAME:
-            app_svg_file = 'wine.svg'
+        if apps_svg_file == GLOBAL_WINE_SVG_LOGO_FILENAME:
+            apps_svg_file = 'wine.svg'
         else:
-            app_svg_file = 'wine-'+app_svg_file
-        xml_svg_write(xml_tree, target_directory, app_svg_file)
+            apps_svg_file = 'wine-'+apps_svg_file
+        xml_svg_write(xml_tree, target_directory, apps_svg_file)
 
 
 def process_places_svg_files(wine_source_directory, target_root_directory):
@@ -669,15 +707,19 @@ def process_places_svg_files(wine_source_directory, target_root_directory):
         xml_svg_write(xml_tree, target_directory, places_svg_file)
 
 
-def create_makefile_variable(root_directory, variable_name, file_type):
+def create_makefile_variable(root_directory, subdirectory, variable_name, file_type):
     """ Create a single variable for Makefile. """
-    if not os.path.exists(root_directory):
-        os.makedirs(root_directory)
+    search_directory = os.path.join(root_directory, subdirectory)
+    if not os.path.exists(search_directory):
+        os.makedirs(search_directory)
     source_files = []
-    for root, __, files in os.walk(root_directory):
-        for file in files:
-            if file.endswith("."+file_type):
-                path = os.path.join(root, file)
+    with os.scandir(search_directory) as it_directory:
+        for directory_entry in it_directory:
+            if (not directory_entry.name.startswith('.') and
+                    directory_entry.is_file() and
+                    directory_entry.name.endswith("."+file_type)
+               ):
+                path = os.path.join(search_directory, directory_entry)
                 path = os.path.relpath(path, root_directory)
                 source_files.append(path)
     if len(source_files) == 1:
@@ -696,28 +738,50 @@ def create_makefile_variable(root_directory, variable_name, file_type):
 
 def create_makefile(root_directory):
     """ Generate Makefile - referencing all file_types which are to be installed """
-    file_installation_list = [("MENU_FILES", "menu", "etc/xdg/menus/applications-merged"),
-                              ("DESKTOP_FILES", "desktop", "/usr/share/applications"),
-                              ("DIRECTORY_FILES", "directory", "/usr/share/desktop-directories"),
-                              ("ICONS", "svg", "/usr/share/icons/hicolor/scalable/places"),
-                              ("WINE_ICO", "ico", "/usr/share/wine/icons")]
+    file_installation_list = \
+        [('MENU_FILES',
+          'menu',
+          'xdg/',
+          '/etc/xdg/menus/applications-merged'),
+         ('DESKTOP_FILES',
+          'desktop',
+          'applications/',
+          '/usr/share/applications'),
+         ('DIRECTORY_FILES',
+          'directory',
+          'desktop-directories/',
+          '/usr/share/desktop-directories'),
+         ('APPS_ICONS',
+          'svg',
+          GLOBAL_SVG_APPS_TARGET_RELPATH,
+          '/usr/share/icons/hicolor/scalable/apps'),
+         ('PLACES_ICONS',
+          'svg',
+          GLOBAL_SVG_PLACES_TARGET_RELPATH,
+          '/usr/share/icons/hicolor/scalable/places'),
+         ('WINE_ICO',
+          'ico',
+          GLOBAL_ICONS_TARGET_RELPATH,
+          '/usr/share/wine/icons')]
     file_text = ""
     for file_type_tuple in file_installation_list:
         file_text += create_makefile_variable(root_directory,
+                                              file_type_tuple[2],
                                               file_type_tuple[0],
-                                              file_type_tuple[1])
+                                              file_type_tuple[1]
+                                             )
     file_text += 'all:'
     for file_type_tuple in file_installation_list:
         file_text += ' $('+file_type_tuple[0]+')'
     file_text += '\n\ninstall: all\n'
     for file_type_tuple in file_installation_list:
-        file_text += ('\tinstall -d "$(DESTDIR)$(EPREFIX)'
+        file_text += ('\tinstall -d "$(DESTDIR)$(EPREFIX)/'
                       +file_type_tuple[2]
                       +'"\n')
         file_text += ('\tinstall -m0644 $('
                       +file_type_tuple[0]
-                      +') "$(DESTDIR)$(EPREFIX)/'
-                      +file_type_tuple[2]
+                      +') "$(DESTDIR)$(EPREFIX)'
+                      +file_type_tuple[3]
                       +'"\n')
     if not os.path.exists(root_directory):
         os.makedirs(root_directory)
@@ -761,7 +825,7 @@ def main():
     print('Clone and modify Wine icons... ', end='')
     xml_register_svg_ns()
     process_wine_icon(wine_source_directory, target_directory)
-    process_app_svg_files(wine_source_directory, target_directory)
+    process_apps_svg_files(wine_source_directory, target_directory)
     process_places_svg_files(wine_source_directory, target_directory)
     print('\nCreate Wine Desktop files... ', end='')
     sys.stdout.flush()

@@ -16,6 +16,15 @@ cd wine-desktop-common-master
 sudo make install
 ```
 
+## Troubleshooting
+
+If your Desktop Environment menus or panel still show low-resolution icons for Wine desktop entries...
+Then you may want to purge any old, low resolution png icons from your local user Freedesktop XDG directories, e.g.:
+
+```
+find "${HOME}/.local/share/icons/hicolor" -type f -iregex ".*\(iexplore\|notepad\|wordpad\)\.0\.png" -print0 | xargs -0 rm -f
+```
+
 ## Build Information
 
 Uses a custom Python 3.6 script to:

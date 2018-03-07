@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 
 """ Module to generate Distribution Agnostic Wine icon, .desktop and .menu data files. """
 

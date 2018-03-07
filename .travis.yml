@@ -1,0 +1,14 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
+before_install:
+  - python --version
+
+install:
+  - pip install pylint
+
+script: 
+  - pylint -j2 .build_tool/build_tool.py

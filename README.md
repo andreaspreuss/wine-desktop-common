@@ -16,9 +16,9 @@ sudo make install
 
 ## Build Information
 
-Uses custom BASH scripts to:
+Uses a custom Python 3 script to:
 
- * extract a set of scalable Wine icons, from the Wine Git tree
- * automatically generate a complete suite of wine .desktop files, with broad locale support
+ * extract and cleanup a set of scalable Wine icons, from a local copy of the Wine Source tree
+ * automatically generate a complete suite of wine .desktop and .menu files, with broad locale support
 
 LGPL-2.1 license for Wine icons.

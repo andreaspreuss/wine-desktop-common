@@ -89,4 +89,4 @@ Exec = wine msiexec /i %%f
 Terminal = false
 Type = Application
 Icon = wine-msiexec
-Categories = X-Wine;
+Categories = Wine;

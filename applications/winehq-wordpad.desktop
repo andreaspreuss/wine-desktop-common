@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name = Wine Wordpad
-Name[ar] =                                                                                                                                                                                                                                                                  ءﻑﺪﻟﺍ ﺬﻴﺒﻨﻟﺍ
+Name[ar] =                                                                                                                                                                                                                                                                 ﺩﺎﺑﺩﺭﻭ ،ﺮﻤﺨﻟﺍ
 Name[bg] = Вино Wordpad
 Name[ca] = Vi Wordpad
 Name[cs] = víno Wordpad
@@ -43,7 +43,7 @@ Name[zh] = 葡萄酒写字板
 Name[zh-CN] = 葡萄酒写字板
 Name[zh-TW] = 葡萄酒寫字板
 Comment = A clone of the Microsoft® Windows Wordpad Text Editor
-Comment[ar] = nuskhat min Microsoft(R) Windows Wordpad Text Editor
+Comment[ar] =                                                                                                                                                                                                                                     ﺩﺎﺑﺩﺭﻭ ﺯﻭﺪﻨﻳﻭ ﺖﻓﻮﺳﻭﺮﻜﻴﻣ ﺹﻮﺼﻧ ﺭﺮﺤﻣ ﻦﻣ ﺔﺨﺴﻧ
 Comment[bg] = Клонинг на текстовия редактор на WordPress на Microsoft® Windows
 Comment[ca] = Un clon de l'editor de text de Microsoft Windows Wordpad
 Comment[cs] = Klon textového editoru textových slov Microsoft® Windows
@@ -89,4 +89,4 @@ Exec = wine wordpad %%f
 Terminal = false
 Type = Application
 Icon = wine-wordpad
-Categories = X-Wine;
+Categories = Wine;

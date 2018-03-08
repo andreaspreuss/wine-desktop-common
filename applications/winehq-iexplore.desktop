@@ -89,4 +89,4 @@ Exec = wine iexplore.exe %U
 Terminal = false
 Type = Application
 Icon = wine-iexplore
-Categories = X-Wine;
+Categories = Wine;

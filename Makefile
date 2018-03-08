@@ -1,29 +1,29 @@
-MENU_FILES = xdg/wine.menu
+MENU_FILES = xdg/winehq-wine.menu
 
 DESKTOP_FILES  =  \
-	applications/wine-browsecdrive.desktop \
-	applications/wine-cmd.desktop \
-	applications/wine-control.desktop \
-	applications/wine-explorer.desktop \
-	applications/wine-iexplore.desktop \
-	applications/wine-mime-msi.desktop \
-	applications/wine-msiexec.desktop \
-	applications/wine-notepad.desktop \
-	applications/wine-oleview.desktop \
-	applications/wine-regedit.desktop \
-	applications/wine-taskmgr.desktop \
-	applications/wine-uninstaller.desktop \
-	applications/wine-wineboot.desktop \
-	applications/wine-winecfg.desktop \
-	applications/wine-winefile.desktop \
-	applications/wine-winemine.desktop \
-	applications/wine-winhelp.desktop \
-	applications/wine-wordpad.desktop
+	applications/winehq-browsecdrive.desktop \
+	applications/winehq-cmd.desktop \
+	applications/winehq-control.desktop \
+	applications/winehq-explorer.desktop \
+	applications/winehq-iexplore.desktop \
+	applications/winehq-mime-msi.desktop \
+	applications/winehq-msiexec.desktop \
+	applications/winehq-notepad.desktop \
+	applications/winehq-oleview.desktop \
+	applications/winehq-regedit.desktop \
+	applications/winehq-taskmgr.desktop \
+	applications/winehq-uninstaller.desktop \
+	applications/winehq-wineboot.desktop \
+	applications/winehq-winecfg.desktop \
+	applications/winehq-winefile.desktop \
+	applications/winehq-winemine.desktop \
+	applications/winehq-winhelp.desktop \
+	applications/winehq-wordpad.desktop
 
 DIRECTORY_FILES  =  \
-	desktop-directories/wine-programs-accessories.directory \
-	desktop-directories/wine-programs.directory \
-	desktop-directories/wine.directory
+	desktop-directories/winehq-programs-accessories.directory \
+	desktop-directories/winehq-programs.directory \
+	desktop-directories/winehq-wine.directory
 
 APPS_ICONS  =  \
 	icons/hicolor/scalable/apps/wine-iexplore.svg \

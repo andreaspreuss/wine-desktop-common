@@ -89,4 +89,4 @@ Exec = winefile
 Terminal = false
 Type = Application
 Icon = wine-winefile
-Categories = X-Wine;
+Categories = Wine;

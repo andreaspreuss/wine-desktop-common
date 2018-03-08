@@ -89,4 +89,4 @@ Exec = wine taskmgr.exe
 Terminal = false
 Type = Application
 Icon = wine-taskmgr
-Categories = X-Wine;
+Categories = Wine;

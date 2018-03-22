@@ -310,9 +310,9 @@ def remove_invalid_translations(translated_text_list):
         protected_ids += [GLOBAL_PROTECTED_TERMS_DICT[protected_term]]
     valid_translated_text_list = []
     for translated_text in translated_text_list:
-        if (translated_text == ''):
+        if translated_text == '':
             continue
-        valid=True
+        valid = True
         for match in re.findall(r'[0-9]{10,}', translated_text):
             if not match in protected_ids:
                 valid = False

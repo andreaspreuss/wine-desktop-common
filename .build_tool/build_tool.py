@@ -3,13 +3,14 @@
 """ Module to generate Linux Distribution Agnostic Wine icon, .desktop and .menu data files. """
 
 import argparse
+import copy
+import os
 import re
 import shutil
-import sys
+import string
 import subprocess
-import os
+import sys
 import xml.etree.ElementTree as ElementTree
-import copy
 
 
 GLOBAL_VENDOR_ID = "winehq"
@@ -28,6 +29,12 @@ GLOBAL_TRANSLATION_DICTIONARY = {"en":{},
                                  "sk":{}, "sl":{}, "sr":{}, "sr-Cyrl":{}, "sr-Latn":{}, "sv":{},
                                  "te":{}, "th":{}, "tr":{}, "uk":{},
                                  "zh":{}, "zh-CN":{}, "zh-TW":{}}
+# Protect these technical/company terms from translation
+# - replace them temporarily, during translation, with a CRC checksum.
+GLOBAL_PROTECTED_TERMS_DICT = {'Microsoft®':'002181990571',
+                               'Windows':'001391736148',
+                               'Wine':'002712425879'}
+GLOBAL_UNPROTECTED_TERMS = ['Component', 'Editor', 'Object', 'Model', 'Text', 'Viewer']
 
 # Categories
 GLOBAL_WINE_CATEGORIES = {"wine":"Wine",
@@ -98,7 +105,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                  "Terminal":'false',
                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"-taskmgr":{"Name":'Wine Task Manager',
-                                 "Comment":'A clone of Windows Task Manager',
+                                 "Comment":'A clone of the Microsoft® Windows Task Manager',
                                  "Type":TYPE,
                                  "Exec":'wine taskmgr.exe',
                                  "Icon":'wine-taskmgr',
@@ -278,6 +285,7 @@ def create_subdirectory(root_directory, subdirectory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+
 def create_subdirectories(root_directory):
     """ Create all required subdirectories in target directory. """
     sudirectory_list = GLOBAL_SUBDIRECTORIES
@@ -286,29 +294,65 @@ def create_subdirectories(root_directory):
         create_subdirectory(root_directory, subdirectory)
 
 
-def find_best_translation(search_text, source_text_list):
+def mangle_protected_term(protected_term):
+    """ Mangle a protected technical term - to ensure it is note
+    subject to translation. """
+    mangled_protected_term = ''.join(filter(lambda x:
+                                            x in string.ascii_uppercase, protected_term.upper()))
+    return mangled_protected_term
+
+
+def remove_invalid_translations(translated_text_list):
+    """ Remove translations from a translation list that contain
+    mangled CRC codes. """
+    protected_ids = []
+    for protected_term in GLOBAL_PROTECTED_TERMS_DICT:
+        protected_ids += [GLOBAL_PROTECTED_TERMS_DICT[protected_term]]
+    valid_translated_text_list = []
+    for translated_text in translated_text_list:
+        if (translated_text == ''):
+            continue
+        valid=True
+        for match in re.findall(r'[0-9]{10,}', translated_text):
+            if not match in protected_ids:
+                valid = False
+                break
+        if valid:
+            valid_translated_text_list += [translated_text]
+    return valid_translated_text_list
+
+
+def find_best_translation(untranslated_text, translated_text_list):
     """ Accepts a base (English) language string and a source list of translation strings.
     Filters the list of translated strings returning the one with the least matches
     against any words from the base (English) language string."""
-    word_list = re.split(' ', search_text)
-    lcsearch_text = search_text.lower()
-    current_score = len(search_text)
+    untranslated_word_list = re.split(' ', untranslated_text)
+    untranslated_words = len(untranslated_word_list)
+    ucuntranslated_text = untranslated_text.upper()
+    current_score = len(untranslated_text)
     target_text = ""
-    for source_text in source_text_list:
-        lcsource_text = source_text.lower()
-        if source_text == "":
-            continue
+    mangled_protected_terms_list = [GLOBAL_PROTECTED_TERMS_DICT[x]
+                                    for x in GLOBAL_PROTECTED_TERMS_DICT]
+    for translated_text in translated_text_list:
+        uctranslated_text = translated_text.upper()
         score = 0
-        if lcsource_text == lcsearch_text:
-            score = len(word_list)
-        for word in word_list:
-            lcword = word.lower()
-            if lcword in lcsource_text:
-                score += len(word)
+        if uctranslated_text == ucuntranslated_text:
+            score = len(untranslated_word_list)
+        for untranslated_word in untranslated_word_list:
+            ucuntranslated_word = untranslated_word.upper()
+            offset = len(untranslated_word)
+            if ucuntranslated_word in mangled_protected_terms_list and untranslated_words > 1:
+                offset = -offset
+            if ucuntranslated_word in uctranslated_text:
+                score += offset
+        #print(f' {translated_text} ({score})')
         if score < current_score or target_text == "":
-            target_text = source_text
+            target_text = translated_text
             current_score = score
+    target_text = target_text.lstrip()
+    target_text = target_text.rstrip()
     return target_text
+
 
 def translate_text(text, locale):
     """ Translates a block text for the specified locale. Uses shell utility trans. """
@@ -324,9 +368,24 @@ def translate_text(text, locale):
                          encoding='utf-8')
     if out.returncode != 0:
         raise SystemError(f'Unable to translate "{text}" to locale: {locale}')
-    translation_list = re.split(r'\n|, |^\(|\)$', out.stdout, flags=re.MULTILINE)
+    translation_list = re.split(r'\n|\,|^\(|\)$', out.stdout, flags=re.MULTILINE)
+    translation_list = remove_invalid_translations(translation_list)
     translated_text = find_best_translation(text, translation_list)
     return translated_text
+
+
+def pre_translate_unprotected_terms():
+    """ Translate a list of non-technical terms that are safe to translate,
+    without affecting their meaning."""
+    for locale in GLOBAL_TRANSLATION_DICTIONARY:
+        if locale == "en":
+            continue
+        locale_dictionary = GLOBAL_TRANSLATION_DICTIONARY[locale]
+        for unprotected_term in GLOBAL_UNPROTECTED_TERMS:
+            if unprotected_term in locale_dictionary:
+                continue
+            locale_dictionary[unprotected_term] = translate_text(unprotected_term, locale)
+
 
 def translate_text_lookup(text, locale):
     """ Translate a phrase or word and return result.
@@ -335,7 +394,22 @@ def translate_text_lookup(text, locale):
     if locale == "en":
         translated_text = text
     elif not text in locale_dictionary:
+        # Protect technical terms, we do not want to be translated ...
+        protected_term_list = []
+        for protected_term in GLOBAL_PROTECTED_TERMS_DICT:
+            new_text = text.replace(protected_term, GLOBAL_PROTECTED_TERMS_DICT[protected_term])
+            if new_text != text:
+                text = new_text
+                protected_term_list += [protected_term]
         translated_text = translate_text(text, locale)
+        for unprotected_term in GLOBAL_UNPROTECTED_TERMS:
+            if unprotected_term in locale_dictionary:
+                translated_text = translated_text.replace(unprotected_term,
+                                                          locale_dictionary[unprotected_term])
+        # ... then convert these terms back.
+        for protected_term in protected_term_list:
+            translated_text = translated_text.replace(GLOBAL_PROTECTED_TERMS_DICT[protected_term],
+                                                      protected_term)
         locale_dictionary[text] = translated_text
     else:
         translated_text = locale_dictionary[text]
@@ -829,6 +903,8 @@ def main():
               +wine_source_directory
               +' is not a valid, pre-existing directory')
         exit(2)
+    print('Pre-translate non-technical, unprotected terms...')
+    pre_translate_unprotected_terms()
     print('Clean all subdirectories and files...')
     clean_all(target_directory)
     print('Create all subdirectories...')

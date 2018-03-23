@@ -4,19 +4,19 @@
   <Name>Applications</Name>
   <Menu>
     <Name>Wine</Name>
-    <Directory>winehq-wine.directory</Directory>
+    <Directory>wine-wine.directory</Directory>
     <Include>
       <Category>Wine</Category>
     </Include>
     <Menu>
       <Name>Wine-Programs</Name>
-      <Directory>winehq-programs.directory</Directory>
+      <Directory>wine-programs.directory</Directory>
       <Include>
         <Category>Wine-Programs</Category>
       </Include>
       <Menu>
         <Name>Wine-Programs-Accessories</Name>
-        <Directory>winehq-programs-accessories.directory</Directory>
+        <Directory>wine-programs-accessories.directory</Directory>
         <Include>
           <Category>Wine-Programs-Accessories</Category>
         </Include>

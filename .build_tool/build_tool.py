@@ -13,7 +13,7 @@ import sys
 import xml.etree.ElementTree as ElementTree
 
 
-GLOBAL_VENDOR_ID = "winehq"
+GLOBAL_VENDOR_ID = "wine"
 
 GLOBAL_TRANSLATION_DICTIONARY = {"en":{},
                                  "ar":{}, "bg":{},
@@ -45,135 +45,135 @@ GLOBAL_GENERAL_CATEGORIES = {"game":"Game", "logic-game":"LogicGame"}
 # Desktop launcher files
 TYPE = "Application"
 GLOBAL_DESKTOP_FILE_DICT = {
-    GLOBAL_VENDOR_ID+"-browsecdrive":{"Name":'Browse C: disk-drive',
-                                      "Comment":'Browse your virtual C: disk-drive',
-                                      "Exec":'sh -c "xdg-open $(winepath -u \'C:\' 2>/dev/null)"',
-                                      "Icon":'drive-wine',
-                                      "Terminal":"false",
-                                      "Type":TYPE,
-                                      "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-cmd":{"Name":'Wine Command interpreter',
-                             "Comment":'Starts a new instance of the command interpreter CMD',
-                             "Type":TYPE,
-                             "Exec":'wine cmd.exe',
-                             "Icon":'wine-wcmd',
-                             "Hidden":'true',
-                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-control":{"Name":'Wine Control',
-                                 "Comment":'A clone of the Microsoft® Windows Control Panel',
-                                 "Type":TYPE,
-                                 "Exec":'wine control.exe',
-                                 "Icon":'control-wine',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-explorer":{"Name":'Wine Explorer',
-                                  "Comment":'A clone of Microsoft® Windows Explorer',
-                                  "Type":TYPE,
-                                  "Exec":'wine explorer.exe',
-                                  "Icon":'wine-winefile',
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-iexplore":{"Name":'Wine Internet Explorer',
-                                  "Comment":('Builtin clone of '
-                                             'Microsoft® Windows Internet Explorer®'),
-                                  "Type":TYPE,
-                                  "Exec":'wine iexplore.exe %U',
-                                  "Icon":'wine-iexplore',
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-notepad":{"Name":'Wine Notepad',
-                                 "Comment":'A clone of the Microsoft® Windows Notepad Text Editor',
-                                 "Type":TYPE,
-                                 "Exec":'notepad %%f',
-                                 "Icon":'wine-notepad',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
-                                               GLOBAL_WINE_CATEGORIES["accessories"]]},
-    GLOBAL_VENDOR_ID+"-oleview":{"Name":'Wine OLE/COM Object Viewer',
-                                 "Comment":('Microsoft® Windows Object Linking and '
-                                            'Embedding/Component Object Model Object Viewer'),
-                                 "Type":TYPE,
-                                 "Exec":'wine oleview.exe',
-                                 "Icon":'control-wine',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-regedit":{"Name":'Wine Registry Editor',
-                                 "Comment":'A clone of the Microsoft® Windows Registry Editor',
-                                 "Type":TYPE,
-                                 "Exec":'regedit',
-                                 "Icon":'wine-regedit',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-taskmgr":{"Name":'Wine Task Manager',
-                                 "Comment":'A clone of the Microsoft® Windows Task Manager',
-                                 "Type":TYPE,
-                                 "Exec":'wine taskmgr.exe',
-                                 "Icon":'wine-taskmgr',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-uninstaller":{"Name":'Uninstall Wine Software',
-                                     "Comment":('A clone of the Microsoft® Windows '
-                                                'Add and Remove Programs Utility'),
+    GLOBAL_VENDOR_ID+"browsecdrive":{"Name":'Browse C: disk-drive',
+                                     "Comment":'Browse your virtual C: disk-drive',
+                                     "Exec":'sh -c "xdg-open $(winepath -u \'C:\' 2>/dev/null)"',
+                                     "Icon":'drive-wine',
+                                     "Terminal":"false",
                                      "Type":TYPE,
-                                     "Exec":'wine uninstaller.exe',
-                                     "Icon":'control-wine',
-                                     "Terminal":'false',
                                      "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-wineboot":{"Name":'Wine System-Boot',
-                                  "Comment":'Simulate System-reboot / System-halt',
-                                  "Type":TYPE,
-                                  "Exec":'wineboot',
-                                  "Icon":'mycomputer-wine',
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-winecfg":{"Name":'Configure Wine',
-                                 "Comment":('Change general Wine options '
-                                            'and application overrides/options'),
+    GLOBAL_VENDOR_ID+"cmd":{"Name":'Wine Command interpreter',
+                            "Comment":'Starts a new instance of the command interpreter CMD',
+                            "Type":TYPE,
+                            "Exec":'wine cmd.exe',
+                            "Icon":'wine-wcmd',
+                            "Hidden":'true',
+                            "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"control":{"Name":'Wine Control',
+                                "Comment":'A clone of the Microsoft® Windows Control Panel',
+                                "Type":TYPE,
+                                "Exec":'wine control.exe',
+                                "Icon":'control-wine',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"explorer":{"Name":'Wine Explorer',
+                                 "Comment":'A clone of Microsoft® Windows Explorer',
                                  "Type":TYPE,
-                                 "Exec":'winecfg',
-                                 "Icon":'wine-winecfg',
+                                 "Exec":'wine explorer.exe',
+                                 "Icon":'wine-winefile',
                                  "Terminal":'false',
                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-winefile":{"Name":'Wine File Browser',
-                                  "Comment":'A clone of Microsoft® Windows Explorer',
-                                  "Type":TYPE,
-                                  "Exec":'winefile',
-                                  "Icon":'wine-winefile',
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-winemine":{"Name":'Wine Minesweeper',
-                                  "Comment":'A clone of the Microsoft® Windows Minesweeper game',
-                                  "Type":TYPE,
-                                  "Exec":'winemine',
-                                  "Icon":'wine-winemine',
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
-                                                GLOBAL_GENERAL_CATEGORIES["game"],
-                                                GLOBAL_GENERAL_CATEGORIES["logic-game"]]},
-    GLOBAL_VENDOR_ID+"-winhelp":{"Name":'Wine Help',
-                                 "Comment":'A clone of the Microsoft® Windows Help File browser',
+    GLOBAL_VENDOR_ID+"iexplore":{"Name":'Wine Internet Explorer',
+                                 "Comment":('Builtin clone of '
+                                            'Microsoft® Windows Internet Explorer®'),
                                  "Type":TYPE,
-                                 "Exec":'wine winhlp32.exe %%f',
-                                 "Icon":'wine-winhelp',
+                                 "Exec":'wine iexplore.exe %U',
+                                 "Icon":'wine-iexplore',
                                  "Terminal":'false',
                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-wordpad":{"Name":'Wine Wordpad',
-                                 "Comment":'A clone of the Microsoft® Windows Wordpad Text Editor',
-                                 "Type":TYPE,
-                                 "Exec":'wine wordpad %%f',
-                                 "Icon":'wine-wordpad',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-msiexec":{"Name":'Wine clone of Microsoft® Installer',
-                                 "Comment":'Wine installer utility for MSI packages',
-                                 "Type":TYPE,
-                                 "Exec":'wine msiexec /i %%f',
-                                 "Icon":'wine-msiexec',
-                                 "Terminal":'false',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"notepad":{"Name":'Wine Notepad',
+                                "Comment":'A clone of the Microsoft® Windows Notepad Text Editor',
+                                "Type":TYPE,
+                                "Exec":'notepad %f',
+                                "Icon":'wine-notepad',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
+                                              GLOBAL_WINE_CATEGORIES["accessories"]]},
+    GLOBAL_VENDOR_ID+"oleview":{"Name":'Wine OLE/COM Object Viewer',
+                                "Comment":('Microsoft® Windows Object Linking and '
+                                           'Embedding/Component Object Model Object Viewer'),
+                                "Type":TYPE,
+                                "Exec":'wine oleview.exe',
+                                "Icon":'control-wine',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"regedit":{"Name":'Wine Registry Editor',
+                                "Comment":'A clone of the Microsoft® Windows Registry Editor',
+                                "Type":TYPE,
+                                "Exec":'regedit',
+                                "Icon":'wine-regedit',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"taskmgr":{"Name":'Wine Task Manager',
+                                "Comment":'A clone of the Microsoft® Windows Task Manager',
+                                "Type":TYPE,
+                                "Exec":'wine taskmgr.exe',
+                                "Icon":'wine-taskmgr',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"uninstaller":{"Name":'Uninstall Wine Software',
+                                    "Comment":('A clone of the Microsoft® Windows '
+                                               'Add and Remove Programs Utility'),
+                                    "Type":TYPE,
+                                    "Exec":'wine uninstaller.exe',
+                                    "Icon":'control-wine',
+                                    "Terminal":'false',
+                                    "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"boot":{"Name":'Wine System-Boot',
+                             "Comment":'Simulate System-reboot / System-halt',
+                             "Type":TYPE,
+                             "Exec":'wineboot',
+                             "Icon":'mycomputer-wine',
+                             "Terminal":'false',
+                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"cfg":{"Name":'Configure Wine',
+                            "Comment":('Change general Wine options '
+                                       'and application overrides/options'),
+                            "Type":TYPE,
+                            "Exec":'winecfg',
+                            "Icon":'wine-winecfg',
+                            "Terminal":'false',
+                            "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"file":{"Name":'Wine File Browser',
+                             "Comment":'A clone of Microsoft® Windows Explorer',
+                             "Type":TYPE,
+                             "Exec":'winefile',
+                             "Icon":'wine-winefile',
+                             "Terminal":'false',
+                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"mine":{"Name":'Wine Minesweeper',
+                             "Comment":'A clone of the Microsoft® Windows Minesweeper game',
+                             "Type":TYPE,
+                             "Exec":'winemine',
+                             "Icon":'wine-winemine',
+                             "Terminal":'false',
+                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
+                                           GLOBAL_GENERAL_CATEGORIES["game"],
+                                           GLOBAL_GENERAL_CATEGORIES["logic-game"]]},
+    GLOBAL_VENDOR_ID+"winhelp":{"Name":'Wine Help',
+                                "Comment":'A clone of the Microsoft® Windows Help File browser',
+                                "Type":TYPE,
+                                "Exec":'wine winhlp32.exe %f',
+                                "Icon":'wine-winhelp',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"wordpad":{"Name":'Wine Wordpad',
+                                "Comment":'A clone of the Microsoft® Windows Wordpad Text Editor',
+                                "Type":TYPE,
+                                "Exec":'wine wordpad %f',
+                                "Icon":'wine-wordpad',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
+    GLOBAL_VENDOR_ID+"msiexec":{"Name":'Wine clone of Microsoft® Installer',
+                                "Comment":'Wine installer utility for MSI packages',
+                                "Type":TYPE,
+                                "Exec":'wine msiexec /i %f',
+                                "Icon":'wine-msiexec',
+                                "Terminal":'false',
+                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"-mime-msi":{"Name":'Microsoft® Windows Installer File',
                                   "Type":TYPE,
-                                  "Exec":'wine %%f',
+                                  "Exec":'wine %f',
                                   "Hidden":'true',
                                   "MimeType":["application/x-ole-storage", "text/mspg-legacyinfo"],
                                   "Terminal":'false',
@@ -421,10 +421,10 @@ def create_translated_xdg_entry(entry, content):
     file_text = ""
     for locale in GLOBAL_TRANSLATION_DICTIONARY:
         if locale == "en":
-            file_text += f'{entry} = {content}\n'
+            file_text += f'{entry}={content}\n'
         else:
             translated_text = translate_text_lookup(content, locale)
-            file_text += f'{entry}[{locale}] = {translated_text}\n'
+            file_text += f'{entry}[{locale}]={translated_text}\n'
     return file_text
 
 
@@ -435,12 +435,12 @@ def create_xdg_type_entry(file_content):
     if file_content["Type"] == "Application":
         # Exec
         if "Exec" in file_content:
-            file_text += f'Exec = {file_content["Exec"]}\n'
+            file_text += f'Exec={file_content["Exec"]}\n'
         # Terminal
         if "Terminal" in file_content:
-            file_text += f'Terminal = {file_content["Terminal"]}\n'
+            file_text += f'Terminal={file_content["Terminal"]}\n'
     # Type
-    file_text += f'Type = {file_content["Type"]}\n'
+    file_text += f'Type={file_content["Type"]}\n'
     return file_text
 
 
@@ -461,22 +461,22 @@ def create_xdg_file(path, file_content):
         file_text += create_xdg_type_entry(file_content)
     # Icon
     if "Icon" in file_content:
-        file_text += f'Icon = {file_content["Icon"]}\n'
+        file_text += f'Icon={file_content["Icon"]}\n'
     # MimeType
     if "MimeType" in file_content:
         mime_types = ""
         for mime_type in file_content["MimeType"]:
             mime_types += mime_type+";"
-        file_text += f'MimeType = {mime_types}\n'
+        file_text += f'MimeType={mime_types}\n'
     # Hidden
     if "Hidden" in file_content and file_content["Hidden"]:
-        file_text += f'Hidden = {file_content["Hidden"]}\n'
+        file_text += f'Hidden={file_content["Hidden"]}\n'
     # Categories
     if "Categories" in file_content:
         categories = ""
         for category in file_content["Categories"]:
             categories += category+";"
-        file_text += f'Categories = {categories}\n'
+        file_text += f'Categories={categories}\n'
     with open(path, "w") as file_handle:
         file_handle.write(file_text)
 

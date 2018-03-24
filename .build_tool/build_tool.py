@@ -33,6 +33,7 @@ GLOBAL_TRANSLATION_DICTIONARY = {"en":{},
 # - replace them temporarily, during translation, with a CRC checksum.
 GLOBAL_PROTECTED_TERMS_DICT = {'Microsoft®':'002181990571',
                                'Windows':'001391736148',
+                               'X-Wine':'002722950245',
                                'Wine':'002712425879'}
 GLOBAL_UNPROTECTED_TERMS = ['Component', 'Editor', 'Object', 'Model', 'Text', 'Viewer']
 
@@ -497,7 +498,7 @@ def create_menu_file(directory, prefix):
         file_text += indent*(i+1)+"<Name>"+prefix+names[0]+"</Name>\n"
         directory = names[0].lower()
         directory = re.sub(r'^wine\-', r'', directory)
-        directory = GLOBAL_VENDOR_ID+"-"+directory+".directory"
+        directory = prefix.lower()+GLOBAL_VENDOR_ID+"-"+directory+".directory"
         file_text += indent*(i+1)+"<Directory>"+directory+"</Directory>\n"
         file_text += indent*(i+1)+"<Include>\n"
         file_text += indent*(i+2)+"<Category>"+prefix+names[0]+"</Category>\n"
@@ -523,16 +524,20 @@ def create_menu_file(directory, prefix):
         file_handle.write(file_text)
 
 
-def create_wine_menu_files(directory):
+def create_wine_menu_files(directory, prefix):
     """ Create Wine menu files """
     entry_type = "Directory"
     if not os.path.exists(directory):
         os.makedirs(directory)
     for desktop_file in GLOBAL_WINE_DESKTOP_FILES:
-        desktop_filename = desktop_file.lower()+".directory"
+        desktop_filename = re.sub(r'^wine\-', r'', desktop_file.lower())
+        desktop_filename = prefix.lower()+GLOBAL_VENDOR_ID+"-"+desktop_filename+".directory"
         path = os.path.join(directory, desktop_filename)
-        icon = "wine" if desktop_file == "Wine" else "folder"
+        icon = 'folder'
         name = re.sub(r'.*\-', r'', desktop_file)
+        if desktop_file == "Wine":
+            icon = 'wine'
+            name = prefix+name
         desktop_file_contents = {"Name":name, "Type":entry_type, "Icon":icon}
         create_xdg_file(path, desktop_file_contents)
 
@@ -922,7 +927,8 @@ def main():
     create_menu_file(os.path.join(target_directory, "xdg"), "X-")
     print('\nCreate Wine Menu files... ', end='')
     sys.stdout.flush()
-    create_wine_menu_files(os.path.join(target_directory, "desktop-directories"))
+    create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "")
+    create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "X-")
     print('\nCreate Makefile...')
     create_makefile(target_directory)
 

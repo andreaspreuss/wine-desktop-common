@@ -25,7 +25,10 @@ DESKTOP_FILES  =  \
 DIRECTORY_FILES  =  \
 	desktop-directories/wine-programs-accessories.directory \
 	desktop-directories/wine-programs.directory \
-	desktop-directories/wine.directory
+	desktop-directories/wine-wine.directory \
+	desktop-directories/x-wine-programs-accessories.directory \
+	desktop-directories/x-wine-programs.directory \
+	desktop-directories/x-wine-wine.directory
 
 APPS_ICONS  =  \
 	icons/hicolor/scalable/apps/wine-iexplore.svg \

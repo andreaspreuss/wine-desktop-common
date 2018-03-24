@@ -4,19 +4,19 @@
   <Name>Applications</Name>
   <Menu>
     <Name>X-Wine</Name>
-    <Directory>wine-wine.directory</Directory>
+    <Directory>x-wine-wine.directory</Directory>
     <Include>
       <Category>X-Wine</Category>
     </Include>
     <Menu>
       <Name>X-Wine-Programs</Name>
-      <Directory>wine-programs.directory</Directory>
+      <Directory>x-wine-programs.directory</Directory>
       <Include>
         <Category>X-Wine-Programs</Category>
       </Include>
       <Menu>
         <Name>X-Wine-Programs-Accessories</Name>
-        <Directory>wine-programs-accessories.directory</Directory>
+        <Directory>x-wine-programs-accessories.directory</Directory>
         <Include>
           <Category>X-Wine-Programs-Accessories</Category>
         </Include>

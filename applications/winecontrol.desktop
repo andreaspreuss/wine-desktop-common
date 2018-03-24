@@ -89,4 +89,4 @@ Exec=wine control.exe
 Terminal=false
 Type=Application
 Icon=control-wine
-Categories=Wine;
+Categories=X-Wine;

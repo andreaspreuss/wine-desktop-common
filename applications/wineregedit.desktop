@@ -89,4 +89,4 @@ Exec=regedit
 Terminal=false
 Type=Application
 Icon=wine-regedit
-Categories=Wine;
+Categories=X-Wine;

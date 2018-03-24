@@ -1,0 +1,26 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+<Menu>
+  <Name>Applications</Name>
+  <Menu>
+    <Name>X-Wine</Name>
+    <Directory>wine-wine.directory</Directory>
+    <Include>
+      <Category>X-Wine</Category>
+    </Include>
+    <Menu>
+      <Name>X-Wine-Programs</Name>
+      <Directory>wine-programs.directory</Directory>
+      <Include>
+        <Category>X-Wine-Programs</Category>
+      </Include>
+      <Menu>
+        <Name>X-Wine-Programs-Accessories</Name>
+        <Directory>wine-programs-accessories.directory</Directory>
+        <Include>
+          <Category>X-Wine-Programs-Accessories</Category>
+        </Include>
+      </Menu>
+    </Menu>
+  </Menu>
+</Menu>

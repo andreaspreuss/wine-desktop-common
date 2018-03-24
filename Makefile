@@ -1,4 +1,6 @@
-MENU_FILES = xdg/wine-wine.menu
+MENU_FILES  =  \
+	xdg/wine.menu \
+	xdg/x-wine.menu
 
 DESKTOP_FILES  =  \
 	applications/wine-mime-msi.desktop \
@@ -23,7 +25,7 @@ DESKTOP_FILES  =  \
 DIRECTORY_FILES  =  \
 	desktop-directories/wine-programs-accessories.directory \
 	desktop-directories/wine-programs.directory \
-	desktop-directories/wine-wine.directory
+	desktop-directories/wine.directory
 
 APPS_ICONS  =  \
 	icons/hicolor/scalable/apps/wine-iexplore.svg \

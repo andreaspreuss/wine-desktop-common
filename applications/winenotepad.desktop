@@ -89,4 +89,4 @@ Exec=notepad %f
 Terminal=false
 Type=Application
 Icon=wine-notepad
-Categories=Wine;Wine-Programs-Accessories;
+Categories=X-Wine;X-Wine-Programs-Accessories;

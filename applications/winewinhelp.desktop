@@ -89,4 +89,4 @@ Exec=wine winhlp32.exe %f
 Terminal=false
 Type=Application
 Icon=wine-winhelp
-Categories=Wine;
+Categories=X-Wine;

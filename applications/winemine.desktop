@@ -89,4 +89,4 @@ Exec=winemine
 Terminal=false
 Type=Application
 Icon=wine-winemine
-Categories=Wine;Game;LogicGame;
+Categories=X-Wine;Game;LogicGame;

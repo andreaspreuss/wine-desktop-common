@@ -47,4 +47,4 @@ Terminal=false
 Type=Application
 MimeType=application/x-ole-storage;text/mspg-legacyinfo;
 Hidden=true
-Categories=X-Wine;
+Categories=Wine;

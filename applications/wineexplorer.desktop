@@ -89,4 +89,5 @@ Exec=wine explorer.exe
 Terminal=false
 Type=Application
 Icon=wine-winefile
-Categories=X-Wine;
+Categories=Wine;
+StartupWMClass=explorer.exe

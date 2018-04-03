@@ -89,4 +89,6 @@ Exec=wine msiexec /i %f
 Terminal=false
 Type=Application
 Icon=wine-msiexec
-Categories=X-Wine;
+NoDisplay=true
+Categories=Wine;
+StartupWMClass=msiexec.exe

@@ -38,9 +38,9 @@ GLOBAL_PROTECTED_TERMS_DICT = {'Microsoft®':'002181990571',
 GLOBAL_UNPROTECTED_TERMS = ['Component', 'Editor', 'Object', 'Model', 'Text', 'Viewer']
 
 # Categories
-GLOBAL_WINE_CATEGORIES = {"wine":"X-Wine",
-                          "programs":"X-Wine-Programs",
-                          "accessories":"X-Wine-Programs-Accessories"}
+GLOBAL_WINE_CATEGORIES = {"wine":"Wine",
+                          "programs":"Wine-Programs",
+                          "accessories":"Wine-Programs-Accessories"}
 GLOBAL_GENERAL_CATEGORIES = {"game":"Game", "logic-game":"LogicGame"}
 
 # Desktop launcher files
@@ -59,6 +59,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                             "Exec":'wine cmd.exe',
                             "Icon":'wine-wcmd',
                             "Hidden":'true',
+                            "StartupWMClass":'cmd.exe',
                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"control":{"Name":'Wine Control',
                                 "Comment":'A clone of the Microsoft® Windows Control Panel',
@@ -66,6 +67,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'wine control.exe',
                                 "Icon":'control-wine',
                                 "Terminal":'false',
+                                "StartupWMClass":'control.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"explorer":{"Name":'Wine Explorer',
                                  "Comment":'A clone of Microsoft® Windows Explorer',
@@ -73,6 +75,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                  "Exec":'wine explorer.exe',
                                  "Icon":'wine-winefile',
                                  "Terminal":'false',
+                                 "StartupWMClass":'explorer.exe',
                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"iexplore":{"Name":'Wine Internet Explorer',
                                  "Comment":('Builtin clone of '
@@ -81,6 +84,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                  "Exec":'wine iexplore.exe %U',
                                  "Icon":'wine-iexplore',
                                  "Terminal":'false',
+                                 "StartupWMClass":'iexplore.exe',
                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"notepad":{"Name":'Wine Notepad',
                                 "Comment":'A clone of the Microsoft® Windows Notepad Text Editor',
@@ -88,6 +92,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'notepad %f',
                                 "Icon":'wine-notepad',
                                 "Terminal":'false',
+                                "StartupWMClass":'notepad.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
                                               GLOBAL_WINE_CATEGORIES["accessories"]]},
     GLOBAL_VENDOR_ID+"oleview":{"Name":'Wine OLE/COM Object Viewer',
@@ -97,6 +102,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'wine oleview.exe',
                                 "Icon":'control-wine',
                                 "Terminal":'false',
+                                "StartupWMClass":'oleview.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"regedit":{"Name":'Wine Registry Editor',
                                 "Comment":'A clone of the Microsoft® Windows Registry Editor',
@@ -104,6 +110,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'regedit',
                                 "Icon":'wine-regedit',
                                 "Terminal":'false',
+                                "StartupWMClass":'regedit.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"taskmgr":{"Name":'Wine Task Manager',
                                 "Comment":'A clone of the Microsoft® Windows Task Manager',
@@ -111,6 +118,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'wine taskmgr.exe',
                                 "Icon":'wine-taskmgr',
                                 "Terminal":'false',
+                                "StartupWMClass":'taskmgr.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"uninstaller":{"Name":'Uninstall Wine Software',
                                     "Comment":('A clone of the Microsoft® Windows '
@@ -119,6 +127,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                     "Exec":'wine uninstaller.exe',
                                     "Icon":'control-wine',
                                     "Terminal":'false',
+                                    "StartupWMClass":'uninstaller.exe',
                                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"boot":{"Name":'Wine System-Boot',
                              "Comment":'Simulate System-reboot / System-halt',
@@ -126,6 +135,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                              "Exec":'wineboot',
                              "Icon":'mycomputer-wine',
                              "Terminal":'false',
+                             "StartupWMClass":'wineboot.exe',
                              "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"cfg":{"Name":'Configure Wine',
                             "Comment":('Change general Wine options '
@@ -134,12 +144,14 @@ GLOBAL_DESKTOP_FILE_DICT = {
                             "Exec":'winecfg',
                             "Icon":'wine-winecfg',
                             "Terminal":'false',
+                            "StartupWMClass":'winecfg.exe',
                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"file":{"Name":'Wine File Browser',
                              "Comment":'A clone of Microsoft® Windows Explorer',
                              "Type":TYPE,
                              "Exec":'winefile',
                              "Icon":'wine-winefile',
+                             "StartupWMClass":'winefile.exe',
                              "Terminal":'false',
                              "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"mine":{"Name":'Wine Minesweeper',
@@ -148,6 +160,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                              "Exec":'winemine',
                              "Icon":'wine-winemine',
                              "Terminal":'false',
+                             "StartupWMClass":'winemine.exe',
                              "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
                                            GLOBAL_GENERAL_CATEGORIES["game"],
                                            GLOBAL_GENERAL_CATEGORIES["logic-game"]]},
@@ -157,6 +170,7 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'wine winhlp32.exe %f',
                                 "Icon":'wine-winhelp',
                                 "Terminal":'false',
+                                "StartupWMClass":'winhlp32.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"wordpad":{"Name":'Wine Wordpad',
                                 "Comment":'A clone of the Microsoft® Windows Wordpad Text Editor',
@@ -164,13 +178,16 @@ GLOBAL_DESKTOP_FILE_DICT = {
                                 "Exec":'wine wordpad %f',
                                 "Icon":'wine-wordpad',
                                 "Terminal":'false',
+                                "StartupWMClass":'wordpad.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"msiexec":{"Name":'Wine clone of Microsoft® Installer',
                                 "Comment":'Wine installer utility for MSI packages',
                                 "Type":TYPE,
                                 "Exec":'wine msiexec /i %f',
+                                "NoDisplay":'true',
                                 "Icon":'wine-msiexec',
                                 "Terminal":'false',
+                                "StartupWMClass":'msiexec.exe',
                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
     GLOBAL_VENDOR_ID+"-mime-msi":{"Name":'Microsoft® Windows Installer File',
                                   "Type":TYPE,
@@ -472,12 +489,17 @@ def create_xdg_file(path, file_content):
     # Hidden
     if "Hidden" in file_content and file_content["Hidden"]:
         file_text += f'Hidden={file_content["Hidden"]}\n'
+    # NoDisplay
+    if "NoDisplay" in file_content and file_content["NoDisplay"]:
+        file_text += f'NoDisplay={file_content["NoDisplay"]}\n'
     # Categories
     if "Categories" in file_content:
         categories = ""
         for category in file_content["Categories"]:
             categories += category+";"
         file_text += f'Categories={categories}\n'
+    if "StartupWMClass" in file_content:
+        file_text += f'StartupWMClass={file_content["StartupWMClass"]}\n'
     with open(path, "w") as file_handle:
         file_handle.write(file_text)
 
@@ -495,10 +517,10 @@ def create_menu_file(directory, prefix):
     def generate_menu_entry(indent, i, names):
         """ Helper to add a nested menu entry to menu file """
         file_text = indent*i+"<Menu>\n"
-        file_text += indent*(i+1)+"<Name>"+prefix+names[0]+"</Name>\n"
-        directory = names[0].lower()
-        directory = re.sub(r'^wine\-', r'', directory)
-        directory = prefix.lower()+GLOBAL_VENDOR_ID+"-"+directory+".directory"
+        name = re.sub(r'^Wine', r'wine', names[0])
+        name = re.sub(r'^wine\-', r'', name)
+        file_text += indent*(i+1)+"<Name>"+prefix+GLOBAL_VENDOR_ID+"-"+name+"</Name>\n"
+        directory = prefix.lower()+GLOBAL_VENDOR_ID+"-"+name+".directory"
         file_text += indent*(i+1)+"<Directory>"+directory+"</Directory>\n"
         file_text += indent*(i+1)+"<Include>\n"
         file_text += indent*(i+2)+"<Category>"+prefix+names[0]+"</Category>\n"
@@ -530,7 +552,8 @@ def create_wine_menu_files(directory, prefix):
     if not os.path.exists(directory):
         os.makedirs(directory)
     for desktop_file in GLOBAL_WINE_DESKTOP_FILES:
-        desktop_filename = re.sub(r'^wine\-', r'', desktop_file.lower())
+        desktop_filename = re.sub(r'^Wine', r'wine', desktop_file)
+        desktop_filename = re.sub(r'^wine\-', r'', desktop_filename)
         desktop_filename = prefix.lower()+GLOBAL_VENDOR_ID+"-"+desktop_filename+".directory"
         path = os.path.join(directory, desktop_filename)
         icon = 'folder'
@@ -924,11 +947,11 @@ def main():
     print('\nCreate Wine XDG Menu files...', end='')
     sys.stdout.flush()
     create_menu_file(os.path.join(target_directory, "xdg"), "")
-    create_menu_file(os.path.join(target_directory, "xdg"), "X-")
+    #create_menu_file(os.path.join(target_directory, "xdg"), "X-")
     print('\nCreate Wine Menu files... ', end='')
     sys.stdout.flush()
     create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "")
-    create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "X-")
+    #create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "X-")
     print('\nCreate Makefile...')
     create_makefile(target_directory)
 

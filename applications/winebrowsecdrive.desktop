@@ -89,4 +89,4 @@ Exec=sh -c "xdg-open $(winepath -u 'C:' 2>/dev/null)"
 Terminal=false
 Type=Application
 Icon=drive-wine
-Categories=X-Wine;
+Categories=Wine;

@@ -89,4 +89,5 @@ Exec=winecfg
 Terminal=false
 Type=Application
 Icon=wine-winecfg
-Categories=X-Wine;
+Categories=Wine;
+StartupWMClass=winecfg.exe

@@ -3,20 +3,20 @@
 <Menu>
   <Name>Applications</Name>
   <Menu>
-    <Name>Wine</Name>
+    <Name>wine-wine</Name>
     <Directory>wine-wine.directory</Directory>
     <Include>
       <Category>Wine</Category>
     </Include>
     <Menu>
-      <Name>Wine-Programs</Name>
-      <Directory>wine-programs.directory</Directory>
+      <Name>wine-Programs</Name>
+      <Directory>wine-Programs.directory</Directory>
       <Include>
         <Category>Wine-Programs</Category>
       </Include>
       <Menu>
-        <Name>Wine-Programs-Accessories</Name>
-        <Directory>wine-programs-accessories.directory</Directory>
+        <Name>wine-Programs-Accessories</Name>
+        <Directory>wine-Programs-Accessories.directory</Directory>
         <Include>
           <Category>Wine-Programs-Accessories</Category>
         </Include>

@@ -89,4 +89,5 @@ Exec=winemine
 Terminal=false
 Type=Application
 Icon=wine-winemine
-Categories=X-Wine;Game;LogicGame;
+Categories=Wine;Game;LogicGame;
+StartupWMClass=winemine.exe

@@ -26,6 +26,14 @@ find "${HOME}/.local/share/icons/hicolor" -type f -iregex ".*\(iexplore\|notepad
     | xargs -0 rm -f
 ```
 
+If you use the **Plasma 5** Desktop Environment then you may need to force an update to your Desktop Database and Plasma's system configuration cache:
+
+```
+update-desktop-database
+kbuildsycoca5 --noincremental
+```
+Symptoms that you may need to do this include: the newer (supplied) high resolution Wine icons / launchers not showing up in the Plasma Application Launcher menus.
+
 ## Build Information
 
 Uses a custom Python 3.6 script to:

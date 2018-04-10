@@ -11,284 +11,12 @@ import string
 import subprocess
 import sys
 import xml.etree.ElementTree as ElementTree
-
-
-GLOBAL_VENDOR_ID = "wine"
-
-GLOBAL_TRANSLATION_DICTIONARY = {"en":{},
-                                 "ar":{}, "bg":{},
-                                 "ca":{}, "cs":{},
-                                 "da":{}, "de":{},
-                                 "el":{}, "eo":{}, "es":{},
-                                 "fa":{}, "fi":{}, "fr":{},
-                                 "he":{}, "hi":{}, "hr":{}, "hu":{},
-                                 "it":{}, "ja":{},
-                                 "ko":{}, "lt":{}, "ml":{}, "nl":{},
-                                 "pa":{}, "pl":{}, "pt":{}, "pt-BR":{}, "pt-PT":{},
-                                 "ro":{}, "ru":{},
-                                 "sk":{}, "sl":{}, "sr":{}, "sr-Cyrl":{}, "sr-Latn":{}, "sv":{},
-                                 "te":{}, "th":{}, "tr":{}, "uk":{},
-                                 "zh":{}, "zh-CN":{}, "zh-TW":{}}
-# Protect these technical/company terms from translation
-# - replace them temporarily, during translation, with a CRC checksum.
-GLOBAL_PROTECTED_TERMS_DICT = {'Microsoft®':'002181990571',
-                               'Windows':'001391736148',
-                               'X-Wine':'002722950245',
-                               'Wine':'002712425879'}
-GLOBAL_UNPROTECTED_TERMS = ['Component', 'Editor', 'Object', 'Model', 'Text', 'Viewer']
-
-# Categories
-GLOBAL_WINE_CATEGORIES = {"wine":"Wine",
-                          "programs":"Wine-Programs",
-                          "accessories":"Wine-Programs-Accessories"}
-GLOBAL_GENERAL_CATEGORIES = {"game":"Game", "logic-game":"LogicGame"}
-
-# Desktop launcher files
-TYPE = "Application"
-GLOBAL_DESKTOP_FILE_DICT = {
-    GLOBAL_VENDOR_ID+"browsecdrive":{"Name":'Browse C: disk-drive',
-                                     "Comment":'Browse your virtual C: disk-drive',
-                                     "Exec":'sh -c "xdg-open $(winepath -u \'C:\' 2>/dev/null)"',
-                                     "Icon":'drive-wine',
-                                     "Terminal":"false",
-                                     "Type":TYPE,
-                                     "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"cmd":{"Name":'Wine Command interpreter',
-                            "Comment":'Starts a new instance of the command interpreter CMD',
-                            "Type":TYPE,
-                            "Exec":'wine cmd.exe',
-                            "Icon":'wine-wcmd',
-                            "Hidden":'true',
-                            "StartupWMClass":'cmd.exe',
-                            "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"control":{"Name":'Wine Control',
-                                "Comment":'A clone of the Microsoft® Windows Control Panel',
-                                "Type":TYPE,
-                                "Exec":'wine control.exe',
-                                "Icon":'control-wine',
-                                "Terminal":'false',
-                                "StartupWMClass":'control.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"explorer":{"Name":'Wine Explorer',
-                                 "Comment":'A clone of Microsoft® Windows Explorer',
-                                 "Type":TYPE,
-                                 "Exec":'wine explorer.exe',
-                                 "Icon":'wine-winefile',
-                                 "Terminal":'false',
-                                 "StartupWMClass":'explorer.exe',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"iexplore":{"Name":'Wine Internet Explorer',
-                                 "Comment":('Builtin clone of '
-                                            'Microsoft® Windows Internet Explorer®'),
-                                 "Type":TYPE,
-                                 "Exec":'wine iexplore.exe %U',
-                                 "Icon":'wine-iexplore',
-                                 "Terminal":'false',
-                                 "StartupWMClass":'iexplore.exe',
-                                 "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"notepad":{"Name":'Wine Notepad',
-                                "Comment":'A clone of the Microsoft® Windows Notepad Text Editor',
-                                "Type":TYPE,
-                                "Exec":'notepad %f',
-                                "Icon":'wine-notepad',
-                                "Terminal":'false',
-                                "StartupWMClass":'notepad.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
-                                              GLOBAL_WINE_CATEGORIES["accessories"]]},
-    GLOBAL_VENDOR_ID+"oleview":{"Name":'Wine OLE/COM Object Viewer',
-                                "Comment":('Microsoft® Windows Object Linking and '
-                                           'Embedding/Component Object Model Object Viewer'),
-                                "Type":TYPE,
-                                "Exec":'wine oleview.exe',
-                                "Icon":'control-wine',
-                                "Terminal":'false',
-                                "StartupWMClass":'oleview.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"regedit":{"Name":'Wine Registry Editor',
-                                "Comment":'A clone of the Microsoft® Windows Registry Editor',
-                                "Type":TYPE,
-                                "Exec":'regedit',
-                                "Icon":'wine-regedit',
-                                "Terminal":'false',
-                                "StartupWMClass":'regedit.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"taskmgr":{"Name":'Wine Task Manager',
-                                "Comment":'A clone of the Microsoft® Windows Task Manager',
-                                "Type":TYPE,
-                                "Exec":'wine taskmgr.exe',
-                                "Icon":'wine-taskmgr',
-                                "Terminal":'false',
-                                "StartupWMClass":'taskmgr.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"uninstaller":{"Name":'Uninstall Wine Software',
-                                    "Comment":('A clone of the Microsoft® Windows '
-                                               'Add and Remove Programs Utility'),
-                                    "Type":TYPE,
-                                    "Exec":'wine uninstaller.exe',
-                                    "Icon":'control-wine',
-                                    "Terminal":'false',
-                                    "StartupWMClass":'uninstaller.exe',
-                                    "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"boot":{"Name":'Wine System-Boot',
-                             "Comment":'Simulate System-reboot / System-halt',
-                             "Type":TYPE,
-                             "Exec":'wineboot',
-                             "Icon":'mycomputer-wine',
-                             "Terminal":'false',
-                             "StartupWMClass":'wineboot.exe',
-                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"cfg":{"Name":'Configure Wine',
-                            "Comment":('Change general Wine options '
-                                       'and application overrides/options'),
-                            "Type":TYPE,
-                            "Exec":'winecfg',
-                            "Icon":'wine-winecfg',
-                            "Terminal":'false',
-                            "StartupWMClass":'winecfg.exe',
-                            "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"file":{"Name":'Wine File Browser',
-                             "Comment":'A clone of Microsoft® Windows Explorer',
-                             "Type":TYPE,
-                             "Exec":'winefile',
-                             "Icon":'wine-winefile',
-                             "StartupWMClass":'winefile.exe',
-                             "Terminal":'false',
-                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"mine":{"Name":'Wine Minesweeper',
-                             "Comment":'A clone of the Microsoft® Windows Minesweeper game',
-                             "Type":TYPE,
-                             "Exec":'winemine',
-                             "Icon":'wine-winemine',
-                             "Terminal":'false',
-                             "StartupWMClass":'winemine.exe',
-                             "Categories":[GLOBAL_WINE_CATEGORIES["wine"],
-                                           GLOBAL_GENERAL_CATEGORIES["game"],
-                                           GLOBAL_GENERAL_CATEGORIES["logic-game"]]},
-    GLOBAL_VENDOR_ID+"winhelp":{"Name":'Wine Help',
-                                "Comment":'A clone of the Microsoft® Windows Help File browser',
-                                "Type":TYPE,
-                                "Exec":'wine winhlp32.exe %f',
-                                "Icon":'wine-winhelp',
-                                "Terminal":'false',
-                                "StartupWMClass":'winhlp32.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"wordpad":{"Name":'Wine Wordpad',
-                                "Comment":'A clone of the Microsoft® Windows Wordpad Text Editor',
-                                "Type":TYPE,
-                                "Exec":'wine wordpad %f',
-                                "Icon":'wine-wordpad',
-                                "Terminal":'false',
-                                "StartupWMClass":'wordpad.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"msiexec":{"Name":'Wine clone of Microsoft® Installer',
-                                "Comment":'Wine installer utility for MSI packages',
-                                "Type":TYPE,
-                                "Exec":'wine msiexec /i %f',
-                                "NoDisplay":'true',
-                                "Icon":'wine-msiexec',
-                                "Terminal":'false',
-                                "StartupWMClass":'msiexec.exe',
-                                "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]},
-    GLOBAL_VENDOR_ID+"-mime-msi":{"Name":'Microsoft® Windows Installer File',
-                                  "Type":TYPE,
-                                  "Exec":'wine %f',
-                                  "Hidden":'true',
-                                  "MimeType":["application/x-ole-storage", "text/mspg-legacyinfo"],
-                                  "Terminal":'false',
-                                  "Categories":[GLOBAL_WINE_CATEGORIES["wine"]]}
-}
-
-# Desktop directory files
-GLOBAL_WINE_DESKTOP_FILES = ["Wine", "Wine-Programs", "Wine-Programs-Accessories"]
-
-# Icon File Constants
-GLOBAL_NEW_INKSCAPE_VERSION = "0.92"
-GLOBAL_NEW_ICON_SIZE = 64
-GLOBAL_ICONS_TARGET_RELPATH = "icons/"
-GLOBAL_SVG_TARGET_RELPATH = os.path.join(GLOBAL_ICONS_TARGET_RELPATH, "hicolor/scalable/")
-GLOBAL_OVERLAY_LARGE_X_SCALE = '0.70'
-GLOBAL_OVERLAY_LARGE_Y_SCALE = '0.66'
-GLOBAL_OVERLAY_MEDIUM_X_SCALE = '0.48'
-GLOBAL_OVERLAY_MEDIUM_Y_SCALE = '0.44'
-
-# Global Wine Logo Overlay icon
-GLOBAL_WINE_LOGO_DIRECTORY = "dlls/user32/resources/"
-GLOBAL_WINE_SVG_LOGO_FILENAME = "oic_winlogo.svg"
-GLOBAL_WINE_ICON_LOGO_FILENAME = "oic_winlogo.ico"
-
-# Application icons
-GLOBAL_SVG_APPS_TARGET_RELPATH = os.path.join(GLOBAL_SVG_TARGET_RELPATH, 'apps/')
-GLOBAL_APP_SVG_FILES = {'notepad.svg':{'srpath':'programs/notepad/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'taskmgr.svg':{'srpath':'programs/taskmgr/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'regedit.svg':{'srpath':'programs/regedit/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'msiexec.svg':{'srpath':'programs/msiexec/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        GLOBAL_WINE_SVG_LOGO_FILENAME:{
-                            'srpath':GLOBAL_WINE_LOGO_DIRECTORY,
-                            'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'winecfg.svg':{'srpath':'programs/winecfg/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'winefile.svg':{'srpath':'programs/winefile/',
-                                        'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'winemine.svg':{'srpath':'programs/winemine/',
-                                        'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'wcmd.svg':{'srpath':'programs/cmd/',
-                                    'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'iexplore.svg':{'srpath':'programs/iexplore/',
-                                        'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'winhelp.svg':{'srpath':'programs/winhlp32/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH},
-                        'wordpad.svg':{'srpath':'programs/wordpad/',
-                                       'trpath':GLOBAL_SVG_APPS_TARGET_RELPATH}
-                       }
-
-# Place icons
-GLOBAL_SVG_PLACES_TARGET_RELPATH = os.path.join(GLOBAL_SVG_TARGET_RELPATH, 'places/')
-GLOBAL_PLACES_SVG_FILES = {'document.svg':{'srpath':'dlls/shell32/',
-                                           'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'mydocs.svg':{'srpath':'dlls/shell32/',
-                                         'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'desktop.svg':{'srpath':'dlls/shell32/',
-                                          'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'printer.svg':{'srpath':'dlls/shell32/',
-                                          'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'drive.svg':{'srpath':'dlls/shell32/',
-                                        'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'control.svg':{'srpath':'dlls/shell32/',
-                                          'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'cdrom.svg':{'srpath':'dlls/shell32/',
-                                        'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'netdrive.svg':{'srpath':'dlls/shell32/',
-                                           'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH},
-                           'mycomputer.svg':{'srpath':'dlls/shell32/',
-                                             'trpath':GLOBAL_SVG_PLACES_TARGET_RELPATH}
-                          }
-
-# Global icon id names
-GLOBAL_LARGE_SVG_ICON_ID = 'icon:large-scaleable'
-GLOBAL_MEDIUM_SVG_ICON_ID = 'icon:medium-scaleable'
-GLOBAL_SMALL_SVG_ICON_ID = 'icon:small-scaleable'
-
-# Global SVG namespaces
-GLOBAL_XMLNS = {'dc_uri':'http://purl.org/dc/elements/1.1/',
-                'cc':'http://creativecommons.org/ns#',
-                'rdf':'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                'xlink':'http://www.w3.org/1999/xlink',
-                'sodipodi':'http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd',
-                'inkscape':'http://www.inkscape.org/namespaces/inkscape',
-                'svg':'http://www.w3.org/2000/svg'}
-
-# Main Directories
-GLOBAL_SUBDIRECTORIES = ["applications", "desktop-directories", "icons", "xdg"]
-
+import global_variables
 
 def clean_all(root_directory):
     """ Remove all directories and main Makefile """
     if os.path.exists(root_directory) and os.path.isdir(root_directory):
-        for directory in GLOBAL_SUBDIRECTORIES:
+        for directory in global_variables.SUBDIRECTORIES:
             path = os.path.join(root_directory, directory)
             if os.path.isdir(path):
                 shutil.rmtree(path)
@@ -306,8 +34,9 @@ def create_subdirectory(root_directory, subdirectory):
 
 def create_subdirectories(root_directory):
     """ Create all required subdirectories in target directory. """
-    sudirectory_list = GLOBAL_SUBDIRECTORIES
-    sudirectory_list += [GLOBAL_SVG_APPS_TARGET_RELPATH, GLOBAL_SVG_PLACES_TARGET_RELPATH]
+    sudirectory_list = global_variables.SUBDIRECTORIES
+    sudirectory_list += [global_variables.SVG_APPS_TARGET_RELPATH,
+                         global_variables.SVG_PLACES_TARGET_RELPATH]
     for subdirectory in sudirectory_list:
         create_subdirectory(root_directory, subdirectory)
 
@@ -324,8 +53,8 @@ def remove_invalid_translations(translated_text_list):
     """ Remove translations from a translation list that contain
     mangled CRC codes. """
     protected_ids = []
-    for protected_term in GLOBAL_PROTECTED_TERMS_DICT:
-        protected_ids += [GLOBAL_PROTECTED_TERMS_DICT[protected_term]]
+    for protected_term in global_variables.PROTECTED_TERMS_DICT:
+        protected_ids += [global_variables.PROTECTED_TERMS_DICT[protected_term]]
     valid_translated_text_list = []
     for translated_text in translated_text_list:
         if translated_text == '':
@@ -345,34 +74,36 @@ def find_best_translation(untranslated_text, translated_text_list):
     Filters the list of translated strings returning the one with the least matches
     against any words from the base (English) language string."""
     untranslated_word_list = re.split(' ', untranslated_text)
-    untranslated_words = len(untranslated_word_list)
-    ucuntranslated_text = untranslated_text.upper()
+    untranslated_word_count = len(untranslated_word_list)
     current_score = len(untranslated_text)
     target_text = ""
-    mangled_protected_terms_list = [GLOBAL_PROTECTED_TERMS_DICT[x]
-                                    for x in GLOBAL_PROTECTED_TERMS_DICT]
+    mangled_protected_terms_list = [global_variables.PROTECTED_TERMS_DICT[x]
+                                    for x in global_variables.PROTECTED_TERMS_DICT]
     for translated_text in translated_text_list:
-        uctranslated_text = translated_text.upper()
+        translated_text = translated_text.strip()
+        translated_text = translated_text.replace('\"', '')
+        if re.search(r'^[0-9]{10,}$', translated_text) and untranslated_word_count > 1:
+            continue
+        translated_word_list = re.split(' ', translated_text)
+        translated_word_count = len(translated_word_list)
         score = 0
-        if uctranslated_text == ucuntranslated_text:
-            score = len(untranslated_word_list)
+        if translated_text.upper() == untranslated_text.upper():
+            score = untranslated_word_count
+        score += abs(translated_word_count - untranslated_word_count)
         for untranslated_word in untranslated_word_list:
-            ucuntranslated_word = untranslated_word.upper()
             offset = len(untranslated_word)
-            if ucuntranslated_word in mangled_protected_terms_list and untranslated_words > 1:
+            if (untranslated_word.upper() in mangled_protected_terms_list
+                    and untranslated_word_count > 1):
                 offset = -offset
-            if ucuntranslated_word in uctranslated_text:
+            if untranslated_word.upper() in translated_text.upper():
                 score += offset
-        #print(f' {translated_text} ({score})')
         if score < current_score or target_text == "":
             target_text = translated_text
             current_score = score
-    target_text = target_text.lstrip()
-    target_text = target_text.rstrip()
     return target_text
 
 
-def translate_text(text, locale):
+def do_translate_text(text, locale):
     """ Translates a block text for the specified locale. Uses shell utility trans. """
     shell_command = 'trans'
     shell_parameters = (f' -indent 0 -no-ansi -no-auto'
@@ -392,42 +123,80 @@ def translate_text(text, locale):
     return translated_text
 
 
-def pre_translate_unprotected_terms():
+def pre_translate_terms():
     """ Translate a list of non-technical terms that are safe to translate,
     without affecting their meaning."""
-    for locale in GLOBAL_TRANSLATION_DICTIONARY:
+    for locale in global_variables.TRANSLATION_DICTIONARY:
         if locale == "en":
             continue
-        locale_dictionary = GLOBAL_TRANSLATION_DICTIONARY[locale]
-        for unprotected_term in GLOBAL_UNPROTECTED_TERMS:
+        locale_dictionary = global_variables.TRANSLATION_DICTIONARY[locale]
+        for unprotected_term in global_variables.UNPROTECTED_TERMS:
             if unprotected_term in locale_dictionary:
                 continue
-            locale_dictionary[unprotected_term] = translate_text(unprotected_term, locale)
+            locale_dictionary[unprotected_term] = do_translate_text(unprotected_term, locale)
+        for protected_term in global_variables.PROTECTED_TERMS_DICT:
+            if protected_term in locale_dictionary:
+                continue
+            if re.search(r'^[A-Z]:$', protected_term):
+                locale_dictionary[protected_term] = protected_term
+            else:
+                locale_dictionary[protected_term] = do_translate_text(protected_term, locale)
+
+
+def translate_text(text, locale):
+    """ Carry out the translation of a non-english phrase. """
+    # Protect technical terms, we do not want to be translated ...
+    locale_dictionary = global_variables.TRANSLATION_DICTIONARY[locale]
+    protected_term_list = []
+    translated_text = do_translate_text(text, locale)
+    for protected_term in global_variables.PROTECTED_TERMS_DICT:
+        new_text = text.replace(protected_term,
+                                global_variables.PROTECTED_TERMS_DICT[protected_term])
+        if new_text != text:
+            text = new_text
+            protected_term_list += [protected_term]
+    if not protected_term_list:
+        protected_translated_text = translated_text
+    else:
+        protected_translated_text = do_translate_text(text, locale)
+    for unprotected_term in global_variables.UNPROTECTED_TERMS:
+        if unprotected_term in locale_dictionary:
+            translated_text = \
+                    translated_text.replace(unprotected_term,
+                                            locale_dictionary[unprotected_term])
+            protected_translated_text = \
+                    protected_translated_text.replace(unprotected_term,
+                                                      locale_dictionary[unprotected_term])
+    # ... then convert these terms back.
+    translation_ok = True
+    for protected_term in protected_term_list:
+        protected_translated_text = \
+            protected_translated_text.replace(global_variables.PROTECTED_TERMS_DICT[protected_term],
+                                              protected_term)
+        if not translation_ok:
+            continue
+        new_translated_text = translated_text.replace(locale_dictionary[protected_term],
+                                                      protected_term)
+        if new_translated_text == translated_text:
+            new_translated_text = translated_text.replace(locale_dictionary[protected_term].lower(),
+                                                          protected_term)
+        if new_translated_text != translated_text:
+            translated_text = new_translated_text
+        else:
+            translation_ok = False
+    if translation_ok:
+        return translated_text
+    return protected_translated_text
 
 
 def translate_text_lookup(text, locale):
     """ Translate a phrase or word and return result.
         Use a dictionary so subsequent lookups are faster."""
-    locale_dictionary = GLOBAL_TRANSLATION_DICTIONARY[locale]
+    locale_dictionary = global_variables.TRANSLATION_DICTIONARY[locale]
     if locale == "en":
         translated_text = text
     elif not text in locale_dictionary:
-        # Protect technical terms, we do not want to be translated ...
-        protected_term_list = []
-        for protected_term in GLOBAL_PROTECTED_TERMS_DICT:
-            new_text = text.replace(protected_term, GLOBAL_PROTECTED_TERMS_DICT[protected_term])
-            if new_text != text:
-                text = new_text
-                protected_term_list += [protected_term]
         translated_text = translate_text(text, locale)
-        for unprotected_term in GLOBAL_UNPROTECTED_TERMS:
-            if unprotected_term in locale_dictionary:
-                translated_text = translated_text.replace(unprotected_term,
-                                                          locale_dictionary[unprotected_term])
-        # ... then convert these terms back.
-        for protected_term in protected_term_list:
-            translated_text = translated_text.replace(GLOBAL_PROTECTED_TERMS_DICT[protected_term],
-                                                      protected_term)
         locale_dictionary[text] = translated_text
     else:
         translated_text = locale_dictionary[text]
@@ -437,7 +206,7 @@ def translate_text_lookup(text, locale):
 def create_translated_xdg_entry(entry, content):
     """ Generate the specified XDG file entry with multiple translations. """
     file_text = ""
-    for locale in GLOBAL_TRANSLATION_DICTIONARY:
+    for locale in global_variables.TRANSLATION_DICTIONARY:
         if locale == "en":
             file_text += f'{entry}={content}\n'
         else:
@@ -507,9 +276,9 @@ def create_wine_desktop_files(directory):
     """ Create all Wine .desktop launcher files. """
     if not os.path.exists(directory):
         os.makedirs(directory)
-    for desktop_file in GLOBAL_DESKTOP_FILE_DICT:
+    for desktop_file in global_variables.DESKTOP_FILE_DICT:
         path = os.path.join(directory, desktop_file+".desktop")
-        create_xdg_file(path, GLOBAL_DESKTOP_FILE_DICT[desktop_file])
+        create_xdg_file(path, global_variables.DESKTOP_FILE_DICT[desktop_file])
 
 
 def create_menu_file(directory, prefix):
@@ -519,8 +288,8 @@ def create_menu_file(directory, prefix):
         file_text = indent*i+"<Menu>\n"
         name = re.sub(r'^Wine', r'wine', names[0])
         name = re.sub(r'^wine\-', r'', name)
-        file_text += indent*(i+1)+"<Name>"+prefix+GLOBAL_VENDOR_ID+"-"+name+"</Name>\n"
-        directory = prefix.lower()+GLOBAL_VENDOR_ID+"-"+name+".directory"
+        file_text += indent*(i+1)+"<Name>"+prefix+global_variables.VENDOR_ID+"-"+name+"</Name>\n"
+        directory = prefix.lower()+global_variables.VENDOR_ID+"-"+name+".directory"
         file_text += indent*(i+1)+"<Directory>"+directory+"</Directory>\n"
         file_text += indent*(i+1)+"<Include>\n"
         file_text += indent*(i+2)+"<Category>"+prefix+names[0]+"</Category>\n"
@@ -537,9 +306,9 @@ def create_menu_file(directory, prefix):
     file_text = '<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"\n'
     file_text += ' "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">\n'
     file_text += '<Menu>\n'+indent+'<Name>'+entry_type+'</Name>\n'
-    file_text += generate_menu_entry(indent, i, GLOBAL_WINE_DESKTOP_FILES)
+    file_text += generate_menu_entry(indent, i, global_variables.WINE_DESKTOP_FILES)
     file_text += "</Menu>\n"
-    path = prefix.lower()+GLOBAL_VENDOR_ID+".menu"
+    path = prefix.lower()+global_variables.VENDOR_ID+".menu"
     print(f'{path} ', end='')
     path = os.path.join(directory, path)
     with open(path, "w") as file_handle:
@@ -551,10 +320,11 @@ def create_wine_menu_files(directory, prefix):
     entry_type = "Directory"
     if not os.path.exists(directory):
         os.makedirs(directory)
-    for desktop_file in GLOBAL_WINE_DESKTOP_FILES:
+    for desktop_file in global_variables.WINE_DESKTOP_FILES:
         desktop_filename = re.sub(r'^Wine', r'wine', desktop_file)
         desktop_filename = re.sub(r'^wine\-', r'', desktop_filename)
-        desktop_filename = prefix.lower()+GLOBAL_VENDOR_ID+"-"+desktop_filename+".directory"
+        desktop_filename = (prefix.lower()+global_variables.VENDOR_ID
+                            +"-"+desktop_filename+".directory")
         path = os.path.join(directory, desktop_filename)
         icon = 'folder'
         name = re.sub(r'.*\-', r'', desktop_file)
@@ -567,10 +337,10 @@ def create_wine_menu_files(directory, prefix):
 
 def xml_register_svg_ns():
     """ Register all global SVG XML namespaces wtth ElementTree module. """
-    for name_space in GLOBAL_XMLNS:
-        ElementTree.register_namespace(name_space, GLOBAL_XMLNS[name_space])
+    for name_space in global_variables.XMLNS:
+        ElementTree.register_namespace(name_space, global_variables.XMLNS[name_space])
         if name_space == 'svg':
-            ElementTree.register_namespace('', GLOBAL_XMLNS[name_space])
+            ElementTree.register_namespace('', global_variables.XMLNS[name_space])
 
 
 def xml_svg_load_and_parse(source_directory, icon_filename):
@@ -589,7 +359,7 @@ def xml_svg_write(xml_tree, root_directory, target_icon_filename):
 def xml_svg_overlay_parse_groups(xml_root):
     """ Remove sections of an Wine icon (overlay) that are not required. """
     first = True
-    for xml_node in xml_root.findall('svg:g', GLOBAL_XMLNS):
+    for xml_node in xml_root.findall('svg:g', global_variables.XMLNS):
         if first:
             first = False
             xml_node.set('transform', 'matrix()')
@@ -601,12 +371,12 @@ def xml_svg_overlay_parse_groups(xml_root):
 def xml_svg_join_fragmented_groups(xml_root):
     """ Hack to fix XML files with SVG icons that are not combined in a single group. """
     xml_large_icon_node = None
-    for xml_node in xml_root.findall('svg:g', GLOBAL_XMLNS):
+    for xml_node in xml_root.findall('svg:g', global_variables.XMLNS):
         if xml_node.attrib.get('id') is None:
             continue
         if xml_large_icon_node is None:
             xml_large_icon_node = copy.deepcopy(xml_node)
-            for xml_subnode in xml_large_icon_node.findall('*', GLOBAL_XMLNS):
+            for xml_subnode in xml_large_icon_node.findall('*', global_variables.XMLNS):
                 xml_large_icon_node.remove(xml_subnode)
             xml_large_icon_node.set('id', '')
             xml_large_icon_node.set('transform', 'translate(0,0)')
@@ -621,9 +391,9 @@ def xml_svg_join_fragmented_groups(xml_root):
 def xml_svg_places_get_transform(icon_size, places_svg_file):
     """ Get transformation matrix for the specified places icon. """
     transformation_data = {}
-    if icon_size == GLOBAL_LARGE_SVG_ICON_ID:
-        transformation_data['x-scale'] = GLOBAL_OVERLAY_LARGE_X_SCALE
-        transformation_data['y-scale'] = GLOBAL_OVERLAY_LARGE_Y_SCALE
+    if icon_size == global_variables.LARGE_SVG_ICON_ID:
+        transformation_data['x-scale'] = global_variables.OVERLAY_LARGE_X_SCALE
+        transformation_data['y-scale'] = global_variables.OVERLAY_LARGE_Y_SCALE
         if places_svg_file in ['document.svg', 'desktop.svg', 'mydocs.svg', 'drive.svg',
                                'mycomputer.svg', 'netdrive.svg', 'printer.svg']:
             transformation_data['x'] = '24'
@@ -631,9 +401,9 @@ def xml_svg_places_get_transform(icon_size, places_svg_file):
         else:
             transformation_data['x'] = '20'
             transformation_data['y'] = '10'
-    elif icon_size == GLOBAL_MEDIUM_SVG_ICON_ID:
-        transformation_data['x-scale'] = GLOBAL_OVERLAY_MEDIUM_X_SCALE
-        transformation_data['y-scale'] = GLOBAL_OVERLAY_MEDIUM_Y_SCALE
+    elif icon_size == global_variables.MEDIUM_SVG_ICON_ID:
+        transformation_data['x-scale'] = global_variables.OVERLAY_MEDIUM_X_SCALE
+        transformation_data['y-scale'] = global_variables.OVERLAY_MEDIUM_Y_SCALE
         if places_svg_file in ['desktop.svg', 'mydocs.svg', 'drive.svg',
                                'netdrive.svg', 'printer.svg']:
             transformation_data['x'] = '187'
@@ -652,17 +422,20 @@ def xml_svg_places_get_transform(icon_size, places_svg_file):
 
 def xml_do_overlay_svg(xml_base_root, xml_overlay_root, places_svg_file):
     """ Overlay a scaled down XML SVG Wine icon on the specified XML SVG base icon. """
-    xml_defs_base = xml_base_root.find('svg:defs', GLOBAL_XMLNS)
-    xml_defs_overlay = xml_overlay_root.find('svg:defs', GLOBAL_XMLNS)
-    xml_group_overlay = xml_overlay_root.find('svg:g', GLOBAL_XMLNS)
+    xml_defs_base = xml_base_root.find('svg:defs', global_variables.XMLNS)
+    xml_defs_overlay = xml_overlay_root.find('svg:defs', global_variables.XMLNS)
+    xml_group_overlay = xml_overlay_root.find('svg:g', global_variables.XMLNS)
     if xml_defs_base is None or xml_defs_overlay is None or xml_group_overlay is None:
         return xml_base_root
     xml_defs_base.extend(xml_defs_overlay)
     if places_svg_file in ['desktop.svg', 'document.svg', 'mycomputer.svg']:
-        icon_order = [GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_LARGE_SVG_ICON_ID]
+        icon_order = [global_variables.MEDIUM_SVG_ICON_ID,
+                      global_variables.LARGE_SVG_ICON_ID]
     else:
-        icon_order = [GLOBAL_LARGE_SVG_ICON_ID, GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_SMALL_SVG_ICON_ID]
-    for xml_group_base in xml_base_root.findall('svg:g', GLOBAL_XMLNS):
+        icon_order = [global_variables.LARGE_SVG_ICON_ID,
+                      global_variables.MEDIUM_SVG_ICON_ID,
+                      global_variables.SMALL_SVG_ICON_ID]
+    for xml_group_base in xml_base_root.findall('svg:g', global_variables.XMLNS):
         if not icon_order:
             break
         xml_group_base.set('id', icon_order[0])
@@ -686,7 +459,7 @@ def xml_process_apps_svg_id_element(xml_root, element, max_icon_size):
     internal_size = (max_icon_size*3)//4
     icon_border = (max_icon_size-internal_size)//2
     xml_height = int(element.get("height"))
-    if element.tag == '{'+GLOBAL_XMLNS['svg']+'}image':
+    if element.tag == '{'+global_variables.XMLNS['svg']+'}image':
         y_value = max_icon_size-xml_height-icon_border
         element.set('y', str(y_value))
     elif xml_height > max_icon_size:
@@ -729,19 +502,26 @@ def xml_apps_svg_parse_groups(xml_root, apps_svg_file):
         - to ensure these are 'neatly' lined up. """
     for element in xml_root.findall(".//*[@id]"):
         if re.search(r'^icon\:[0-9]+\-[0-9]+$', element.attrib.get('id')):
-            xml_root = xml_process_apps_svg_id_element(xml_root, element, GLOBAL_NEW_ICON_SIZE)
-    icon_order = [GLOBAL_LARGE_SVG_ICON_ID, GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_SMALL_SVG_ICON_ID]
+            xml_root = xml_process_apps_svg_id_element(xml_root,
+                                                       element,
+                                                       global_variables.NEW_ICON_SIZE)
+    icon_order = [global_variables.LARGE_SVG_ICON_ID,
+                  global_variables.MEDIUM_SVG_ICON_ID,
+                  global_variables.SMALL_SVG_ICON_ID]
     if apps_svg_file in ['iexplore.svg', 'notepad.svg']:
-        icon_order = [GLOBAL_SMALL_SVG_ICON_ID, GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_LARGE_SVG_ICON_ID]
+        icon_order = [global_variables.SMALL_SVG_ICON_ID,
+                      global_variables.MEDIUM_SVG_ICON_ID,
+                      global_variables.LARGE_SVG_ICON_ID]
     elif apps_svg_file in ['taskmgr.svg', 'winecfg.svg', 'wordpad.svg']:
-        icon_order = [GLOBAL_MEDIUM_SVG_ICON_ID, GLOBAL_LARGE_SVG_ICON_ID]
+        icon_order = [global_variables.MEDIUM_SVG_ICON_ID,
+                      global_variables.LARGE_SVG_ICON_ID]
     first = True
-    for element in xml_root.findall(".//svg:g", GLOBAL_XMLNS):
+    for element in xml_root.findall(".//svg:g", global_variables.XMLNS):
         x_offset = y_offset = 0
         if icon_order:
             element.set('id', icon_order[0])
             icon_order = icon_order[1:]
-        if int(xml_root.get('height')) <= GLOBAL_NEW_ICON_SIZE:
+        if int(xml_root.get('height')) <= global_variables.NEW_ICON_SIZE:
             continue
         if first:
             first = False
@@ -758,37 +538,38 @@ def xml_apps_svg_parse_groups(xml_root, apps_svg_file):
 
 def xml_svg_fix_icon_size(xml_root):
     """ Set main XML SVG icon size and use employ a hack to set a newer version of Inkscape. """
-    xml_root.set('{'+GLOBAL_XMLNS['inkscape']+'}version', str(GLOBAL_NEW_INKSCAPE_VERSION))
-    xml_root.set('height', str(GLOBAL_NEW_ICON_SIZE))
-    xml_root.set('width', str(GLOBAL_NEW_ICON_SIZE))
+    xml_root.set('{'+global_variables.XMLNS['inkscape']+'}version',
+                 str(global_variables.NEW_INKSCAPE_VERSION))
+    xml_root.set('height', str(global_variables.NEW_ICON_SIZE))
+    xml_root.set('width', str(global_variables.NEW_ICON_SIZE))
     return xml_root
 
 
 def process_wine_icon(wine_source_directory, target_root_directory):
     """ Clone wine (Windows) icon file. """
-    print(f'{GLOBAL_WINE_ICON_LOGO_FILENAME} ', end='')
-    source_path = os.path.join(wine_source_directory, GLOBAL_WINE_LOGO_DIRECTORY)
-    source_path = os.path.join(source_path, GLOBAL_WINE_ICON_LOGO_FILENAME)
-    destination_path = os.path.join(target_root_directory, GLOBAL_ICONS_TARGET_RELPATH)
-    destination_path = os.path.join(destination_path, GLOBAL_WINE_ICON_LOGO_FILENAME)
+    print(f'{global_variables.WINE_ICON_LOGO_FILENAME} ', end='')
+    source_path = os.path.join(wine_source_directory, global_variables.WINE_LOGO_DIRECTORY)
+    source_path = os.path.join(source_path, global_variables.WINE_ICON_LOGO_FILENAME)
+    destination_path = os.path.join(target_root_directory, global_variables.ICONS_TARGET_RELPATH)
+    destination_path = os.path.join(destination_path, global_variables.WINE_ICON_LOGO_FILENAME)
     shutil.copyfile(source_path, destination_path)
 
 
 def process_apps_svg_files(wine_source_directory, target_root_directory):
     """ Loop through and process all application icons
         - cloning these from the specified Wine Source tree. """
-    for apps_svg_file in GLOBAL_APP_SVG_FILES:
+    for apps_svg_file in global_variables.APP_SVG_FILES:
         print(f'{apps_svg_file} ', end='')
         sys.stdout.flush()
-        source_rel_directory = GLOBAL_APP_SVG_FILES[apps_svg_file]['srpath']
+        source_rel_directory = global_variables.APP_SVG_FILES[apps_svg_file]['srpath']
         source_directory = os.path.join(wine_source_directory, source_rel_directory)
-        target_rel_path = GLOBAL_APP_SVG_FILES[apps_svg_file]['trpath']
+        target_rel_path = global_variables.APP_SVG_FILES[apps_svg_file]['trpath']
         target_directory = os.path.join(target_root_directory, target_rel_path)
         xml_tree = xml_svg_load_and_parse(source_directory, apps_svg_file)
         xml_root = xml_tree.getroot()
         xml_root = xml_apps_svg_parse_groups(xml_root, apps_svg_file)
         xml_root = xml_svg_fix_icon_size(xml_root)
-        if apps_svg_file == GLOBAL_WINE_SVG_LOGO_FILENAME:
+        if apps_svg_file == global_variables.WINE_SVG_LOGO_FILENAME:
             apps_svg_file = 'wine.svg'
         else:
             apps_svg_file = 'wine-'+apps_svg_file
@@ -798,16 +579,17 @@ def process_apps_svg_files(wine_source_directory, target_root_directory):
 def process_places_svg_files(wine_source_directory, target_root_directory):
     """ Loop through and process all places icons
         - cloning these from the specified Wine Source tree. """
-    source_directory = os.path.join(wine_source_directory, GLOBAL_WINE_LOGO_DIRECTORY)
-    xml_overlay_tree = xml_svg_load_and_parse(source_directory, GLOBAL_WINE_SVG_LOGO_FILENAME)
+    source_directory = os.path.join(wine_source_directory, global_variables.WINE_LOGO_DIRECTORY)
+    xml_overlay_tree = xml_svg_load_and_parse(source_directory,
+                                              global_variables.WINE_SVG_LOGO_FILENAME)
     xml_overlay_root = xml_overlay_tree.getroot()
     xml_overlay_root = xml_svg_overlay_parse_groups(xml_overlay_root)
-    for places_svg_file in GLOBAL_PLACES_SVG_FILES:
+    for places_svg_file in global_variables.PLACES_SVG_FILES:
         print(f'{places_svg_file} ', end='')
         sys.stdout.flush()
-        source_rel_directory = GLOBAL_PLACES_SVG_FILES[places_svg_file]['srpath']
+        source_rel_directory = global_variables.PLACES_SVG_FILES[places_svg_file]['srpath']
         source_directory = os.path.join(wine_source_directory, source_rel_directory)
-        target_rel_path = GLOBAL_PLACES_SVG_FILES[places_svg_file]['trpath']
+        target_rel_path = global_variables.PLACES_SVG_FILES[places_svg_file]['trpath']
         target_directory = os.path.join(target_root_directory, target_rel_path)
         xml_tree = xml_svg_load_and_parse(source_directory, places_svg_file)
         xml_root = xml_tree.getroot()
@@ -865,15 +647,15 @@ def create_makefile(root_directory):
           '/usr/share/desktop-directories'),
          ('APPS_ICONS',
           'svg',
-          GLOBAL_SVG_APPS_TARGET_RELPATH,
+          global_variables.SVG_APPS_TARGET_RELPATH,
           '/usr/share/icons/hicolor/scalable/apps'),
          ('PLACES_ICONS',
           'svg',
-          GLOBAL_SVG_PLACES_TARGET_RELPATH,
+          global_variables.SVG_PLACES_TARGET_RELPATH,
           '/usr/share/icons/hicolor/scalable/places'),
          ('WINE_ICO',
           'ico',
-          GLOBAL_ICONS_TARGET_RELPATH,
+          global_variables.ICONS_TARGET_RELPATH,
           '/usr/share/wine/icons')]
     file_text = ""
     for file_type_tuple in file_installation_list:
@@ -904,6 +686,7 @@ def create_makefile(root_directory):
 
 def main():
     """ Module to generate Distribution Agnostic Wine icon, .desktop and .menu data files. """
+    global_variables.init()
     parser = argparse.ArgumentParser(description=('Python script to generate Wine .svg/.ico icon,'
                                                   '.desktop and .menu data files.'),
                                      usage='%(prog)s [options]')
@@ -930,8 +713,8 @@ def main():
               +wine_source_directory
               +' is not a valid, pre-existing directory')
         exit(2)
-    print('Pre-translate non-technical, unprotected terms...')
-    pre_translate_unprotected_terms()
+    print('Pre-translate (non-)technical, (un)protected terms...')
+    pre_translate_terms()
     print('Clean all subdirectories and files...')
     clean_all(target_directory)
     print('Create all subdirectories...')

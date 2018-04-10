@@ -88,6 +88,6 @@ Comment[zh-TW]=Microsoft® Windows Duìxiàng liànjiē hé qiànrù/zǔjiàn du
 Exec=wine oleview.exe
 Terminal=false
 Type=Application
-Icon=control-wine
+Icon=wine-control
 Categories=Wine;Wine-Programs-Accessories;
 StartupWMClass=oleview.exe

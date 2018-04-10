@@ -88,5 +88,5 @@ Comment[zh-TW]=Liúlǎn nín de xūnǐ C: cípán qūdòngqì
 Exec=sh -c "xdg-open $(winepath -u 'C:' 2>/dev/null)"
 Terminal=false
 Type=Application
-Icon=drive-wine
+Icon=wine-drive
 Categories=Wine;

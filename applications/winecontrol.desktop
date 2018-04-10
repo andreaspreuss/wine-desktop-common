@@ -88,6 +88,6 @@ Comment[zh-TW]=Microsoft® Windows Kòngzhì miànbǎn de kèlóng
 Exec=wine control.exe
 Terminal=false
 Type=Application
-Icon=control-wine
+Icon=wine-control
 Categories=Wine;Wine-Programs-Accessories;
 StartupWMClass=control.exe

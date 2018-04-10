@@ -597,7 +597,7 @@ def process_places_svg_files(wine_source_directory, target_root_directory):
             xml_root = xml_svg_join_fragmented_groups(xml_root)
         xml_root = xml_do_overlay_svg(xml_root, xml_overlay_root, places_svg_file)
         xml_root = xml_svg_fix_icon_size(xml_root)
-        places_svg_file = re.sub(r'(\.svg)', r'-wine\1', places_svg_file)
+        places_svg_file = global_variables.VENDOR_ID+'-'+places_svg_file
         xml_svg_write(xml_tree, target_directory, places_svg_file)
 
 
@@ -730,11 +730,9 @@ def main():
     print('\nCreate Wine XDG Menu files...', end='')
     sys.stdout.flush()
     create_menu_file(os.path.join(target_directory, "xdg"), "")
-    #create_menu_file(os.path.join(target_directory, "xdg"), "X-")
     print('\nCreate Wine Menu files... ', end='')
     sys.stdout.flush()
     create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "")
-    #create_wine_menu_files(os.path.join(target_directory, "desktop-directories"), "X-")
     print('\nCreate Makefile...')
     create_makefile(target_directory)
 

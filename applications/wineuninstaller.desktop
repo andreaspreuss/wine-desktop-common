@@ -88,6 +88,6 @@ Comment[zh-TW]=Microsoft® Windows“Tiānjiā hé shānchú chéngxù” shíy�
 Exec=wine uninstaller.exe
 Terminal=false
 Type=Application
-Icon=control-wine
+Icon=wine-control
 Categories=Wine;
 StartupWMClass=uninstaller.exe

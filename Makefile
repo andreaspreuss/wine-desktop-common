@@ -40,15 +40,15 @@ APPS_ICONS  =  \
 	icons/hicolor/scalable/apps/wine.svg
 
 PLACES_ICONS  =  \
-	icons/hicolor/scalable/places/cdrom-wine.svg \
-	icons/hicolor/scalable/places/control-wine.svg \
-	icons/hicolor/scalable/places/desktop-wine.svg \
-	icons/hicolor/scalable/places/document-wine.svg \
-	icons/hicolor/scalable/places/drive-wine.svg \
-	icons/hicolor/scalable/places/mycomputer-wine.svg \
-	icons/hicolor/scalable/places/mydocs-wine.svg \
-	icons/hicolor/scalable/places/netdrive-wine.svg \
-	icons/hicolor/scalable/places/printer-wine.svg
+	icons/hicolor/scalable/places/wine-cdrom.svg \
+	icons/hicolor/scalable/places/wine-control.svg \
+	icons/hicolor/scalable/places/wine-desktop.svg \
+	icons/hicolor/scalable/places/wine-document.svg \
+	icons/hicolor/scalable/places/wine-drive.svg \
+	icons/hicolor/scalable/places/wine-mycomputer.svg \
+	icons/hicolor/scalable/places/wine-mydocs.svg \
+	icons/hicolor/scalable/places/wine-netdrive.svg \
+	icons/hicolor/scalable/places/wine-printer.svg
 
 WINE_ICO = icons/oic_winlogo.ico
 
